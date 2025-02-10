@@ -12,6 +12,7 @@ void processInput(GLFWwindow* window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, true);
+        std::cout << "escape key is pressed closing application\n";
     }
 }
 
@@ -121,7 +122,7 @@ int main()
     glAttachShader(shaderProgram, fragmentShader);
     glLinkProgram(shaderProgram);
 
-    glUseProgram(shaderProgram);
+    
 
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
@@ -130,11 +131,11 @@ int main()
 
 
 
+
     // Render loop
     while (!glfwWindowShouldClose(window))
     {
         // clear Color Buffer
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         
 
         //input processing
@@ -148,7 +149,9 @@ int main()
         glfwSwapBuffers(window);
         glfwPollEvents();
 
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+        glUseProgram(shaderProgram);
     }
 
 
