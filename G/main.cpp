@@ -126,6 +126,8 @@ int main()
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
+    // Vertex shader linking still needed
+
 
 
     // Render loop
