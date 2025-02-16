@@ -110,10 +110,24 @@ int main()
     // ------------------------------------------------------------------
     float vertices[] = {
         // positions         // colors
-         0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // bottom right
-        -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  // bottom left
-         0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f   // top 
+         -0.5f, 0.0f, 0.0f,  1.0f, 0.0f, 0.0f,  // bottom right
+         0.5f, 0.0f, 0.0f,  0.0f, 1.0f, 0.0f,  // bottom left
+         0.0f, 0.65f, 0.0f,  0.0f, 0.0f, 1.0f,   // top
 
+         // second              //colors
+         -0.5f, 0.0f, 0.0f,     1.0f, 0.0f, 0.0f,
+          0.5f, 0.0f, 0.0f,     0.0f, 1.0f, 0.0f,
+          0.0f, -0.65f, 0.0f,   0.0f, 0.0f, 1.0f,
+
+          // third              //colors
+         0.0f, -0.65f, 0.0f,    0.0f, 0.0f, 1.0f,
+         -0.5f, 0.0f, 0.0f,     0.0f, 1.0f, 0.0f,
+         -0.5f, 0.65f, 0.0f,    1.0f, 0.0f, 0.0f,
+
+         //fourth               //colors
+          0.0f, -0.65f, 0.0f,   0.0f, 0.0f, 1.0f,
+          0.5f, 0.0f, 0.0f,     0.0f, 1.0f, 0.0f,
+          0.5f, 0.65f, 0.0f,    1.0f, 0.0f, 0.0f,
     };
 
     unsigned int VBO, VAO;
@@ -166,7 +180,7 @@ int main()
 
         // render the triangle
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawArrays(GL_TRIANGLES, 0, 12);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
@@ -195,9 +209,11 @@ void processInput(GLFWwindow* window)
         glfwSetWindowShouldClose(window, true);
     }
     if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
+        printf("wireframe ON\n");
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     }
     if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
+        printf("wireframe OFF\n");
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
 }
