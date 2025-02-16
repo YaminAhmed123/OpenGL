@@ -7,8 +7,8 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 
 // settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+const unsigned int SCR_WIDTH = 1000;
+const unsigned int SCR_HEIGHT = 800;
 
 const char* vertexShaderSource = "#version 330 core\n"
 "layout (location = 0) in vec3 aPos;\n"
@@ -17,16 +17,23 @@ const char* vertexShaderSource = "#version 330 core\n"
 "void main()\n"
 "{\n"
 "   gl_Position = vec4(aPos, 1.0);\n"
+"   \n"
 "   ourColor = aColor;\n"
 "}\0";
+
+
 
 const char* fragmentShaderSource = "#version 330 core\n"
 "out vec4 FragColor;\n"
 "in vec3 ourColor;\n"
+"uniform vec3 offset;\n"
 "void main()\n"
 "{\n"
-"   FragColor = vec4(ourColor, 1.0f);\n"
+"   vec3 temp = vec3(ourColor+offset);\n"
+"   FragColor = vec4(temp, 1.0f);\n"
 "}\n\0";
+
+
 
 int main()
 {
@@ -140,6 +147,18 @@ int main()
         // -----
         processInput(window);
 
+
+        float timeValue = glfwGetTime();
+        float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
+		float redValue = (cos(timeValue) / 2.0f) + 0.5f;
+		float blueValue = (-sin(timeValue) / 2.0f) + 0.5f;
+
+        int offset = glGetUniformLocation(shaderProgram, "offset");
+		glUniform3f(offset, redValue, greenValue, blueValue);
+        
+        
+        
+        
         // render
         // ------
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
