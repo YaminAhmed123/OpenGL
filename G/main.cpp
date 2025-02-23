@@ -1,3 +1,5 @@
+// this branch will be used to learn texture loading
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "shaderIOC/shader_s.h"
