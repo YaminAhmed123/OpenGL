@@ -8,6 +8,6 @@ uniform float offset3;
 
 void main()
 {
-    vec3 temp = vec3(ourColor.x+offset2, ourColor.y+offset3, ourColor.z+offset1);
+    vec3 temp = vec3(ourColor.x+offset1, ourColor.y+offset2, ourColor.z+offset3);
     FragColor = vec4(temp, 1.0f);
 }

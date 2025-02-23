@@ -105,7 +105,6 @@ int main()
 
         // render
         // ------
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         // render the triangle
@@ -114,15 +113,15 @@ int main()
 
         // modify uniforms
         float timeValue = glfwGetTime();
-        float redValue = (sin(timeValue) / 2.0f) + 0.5f;
+        float redValue = (cos(timeValue) / 2.0f) + 0.489f;
 		ourShader.setFloat("offset1", redValue);
 
 		float timeValue2 = glfwGetTime();
-		float greenValue = (cos(timeValue2) / 2.0f) + 0.5f;
+		float greenValue = (-sin(timeValue2) / 2.0f) + 0.489f;
 		ourShader.setFloat("offset2", greenValue);
 
 		float timeValue3 = glfwGetTime();
-		float blueValue = (-sin(timeValue3) / 2.0f) + 0.5f;
+		float blueValue = (-cos(timeValue3) / 2.0f) + 0.489f;
 		ourShader.setFloat("offset3", blueValue);
 
         glDrawArrays(GL_TRIANGLES, 0, 12);
@@ -162,6 +161,18 @@ void processInput(GLFWwindow* window)
     {
 		std::cout << "Fill mode" << std::endl;
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    }
+
+    // add the back color to keys
+    if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
+    {
+        std::cout << "Background color set to black" << std::endl;
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    }
+    if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS)
+    {
+        std::cout << "Background color set to white" << std::endl;
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     }
 }
 
