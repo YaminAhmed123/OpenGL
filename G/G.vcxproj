@@ -139,12 +139,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\DEV\glad\src\glad.c" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="glad.c" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="shader\fragmentShader.glsl" />
-    <None Include="shader\vertexShader.glsl" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="shaderIOC\shader_s.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fragmentShader.glsl" />
+    <None Include="vertexShader.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
