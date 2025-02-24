@@ -2,9 +2,11 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include "shaderIOC/shader_s.h"
+#include "headers/shader_s.h"
 #include <iostream>
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "headers/stb_image.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
@@ -53,25 +55,15 @@ int main()
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
     float vertices[] = {
-        // positions         // colors
-         -0.5f, 0.0f, 0.0f,  1.0f, 0.0f, 0.0f,  // bottom right
-         0.5f, 0.0f, 0.0f,  0.0f, 1.0f, 0.0f,  // bottom left
-         0.0f, 0.65f, 0.0f,  0.0f, 0.0f, 1.0f,   // top
+        -0.5f, -0.5f, 0.0f,     0.0f, 1.0f, 0.0f,
+		0.5f, -0.5f, 0.0f,	    0.0f, 0.0f, 1.0f,
+		0.0f,  0.5f, 0.0f ,     1.0f, 0.0f, 0.0f,
+    };
 
-         // second              //colors
-         -0.5f, 0.0f, 0.0f,     1.0f, 0.0f, 0.0f,
-          0.5f, 0.0f, 0.0f,     0.0f, 1.0f, 0.0f,
-          0.0f, -0.65f, 0.0f,   0.0f, 0.0f, 1.0f,
-
-          // third              //colors
-         0.0f, -0.65f, 0.0f,    0.0f, 0.0f, 1.0f,
-         -0.5f, 0.0f, 0.0f,     0.0f, 1.0f, 0.0f,
-         -0.5f, 0.65f, 0.0f,    1.0f, 0.0f, 0.0f,
-
-         //fourth               //colors
-          0.0f, -0.65f, 0.0f,   0.0f, 0.0f, 1.0f,
-          0.5f, 0.0f, 0.0f,     0.0f, 1.0f, 0.0f,
-          0.5f, 0.65f, 0.0f,    1.0f, 0.0f, 0.0f,
+    float texCoords[] = {
+        0.0f, 0.0f,  // lower-left corner  
+        1.0f, 0.0f,  // lower-right corner
+        0.5f, 1.0f   // top-center corner
     };
 
 

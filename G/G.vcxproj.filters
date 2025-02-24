@@ -26,7 +26,10 @@
     <ClInclude Include="resource.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="shaderIOC\shader_s.h">
+    <ClInclude Include="headers\shader_s.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\stb_image.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
