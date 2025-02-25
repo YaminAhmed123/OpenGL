@@ -15,6 +15,10 @@ void processInput(GLFWwindow* window);
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
+
+
+int PLEASE_DELETAE_THIS_AT_ALL_COSTS = 0;
+
 int main()
 {
     // glfw: initialize and configure
@@ -46,43 +50,114 @@ int main()
         return -1;
     }
 
+
+
+
+
+
+
+
     // build and compile our shader program
     // ------------------------------------
     const char* vPath = "vertexShader.glsl";
     const char* fPath = "fragmentShader.glsl";
     Shader ourShader(vPath, fPath); // you can name your shader files however you like
 
+
+
+
+
+
+
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
     float vertices[] = {
-        -0.5f, -0.5f, 0.0f,     0.0f, 1.0f, 0.0f,
-		0.5f, -0.5f, 0.0f,	    0.0f, 0.0f, 1.0f,
-		0.0f,  0.5f, 0.0f ,     1.0f, 0.0f, 0.0f,
+        // positions          // colors           // texture coords
+         0.7f,  0.7f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
+         0.7f, -0.7f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
+        -0.7f, -0.7f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
+        -0.7f,  0.7f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
     };
 
-    float texCoords[] = {
-        0.0f, 0.0f,  // lower-left corner  
-        1.0f, 0.0f,  // lower-right corner
-        0.5f, 1.0f   // top-center corner
+	// for the EBO this represents the indecies used to define the two tirangles based by the given 4 Vertexes above
+    unsigned int indices[] = {
+        0, 1, 3, // first triangle
+        1, 2, 3  // second triangle
     };
 
 
-    unsigned int VBO, VAO;
+
+
+
+
+
+
+    // the setup code for loading the texture and using the filtering options
+    // if you forget what the filter was for look at the doc again please
+
+    unsigned int texture;
+
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    // set the texture wrapping/filtering options (on the currently bound texture object)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+
+    // load and generate the texture
+    int width, height, nrChannels;
+    unsigned char* data = stbi_load("images/alterMann.jpg", &width, &height, &nrChannels, 0);
+    if (data)
+    {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else
+    {
+        std::cout << "Failed to load texture" << std::endl;
+    }
+    stbi_image_free(data);
+
+
+
+
+
+
+
+    // Over all buffer setup
+
+    unsigned int VBO, VAO, EBO;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
-    // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
+    glGenBuffers(1, &EBO);
+
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
     // position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
     // color attribute
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
+    // texture coord attribute
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
 
+
+
+
+
+
+	
     // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
     // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
     // glBindVertexArray(0);
@@ -100,24 +175,35 @@ int main()
         // ------
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // render the triangle
+		// render the set of triangle that resembles a square
         ourShader.use();
+
+        // utility uniform setup
+        if(PLEASE_DELETAE_THIS_AT_ALL_COSTS != 0)
+        {
+            float timeValueX = glfwGetTime();
+            float xValue = (sin(timeValueX) / 2.0f) + 0.2f;
+
+            float timeValueY = glfwGetTime();
+            float yValue = (cos(timeValueY) / 2.0f) + 0.2f;
+
+            float timeValueZ = glfwGetTime();
+            float zValue = (-sin(timeValueZ) / 2.0f) + 0.2f;
+
+            ourShader.setFloat("x", xValue);
+            ourShader.setFloat("y", yValue);
+            ourShader.setFloat("z", zValue);
+        }
+        else {
+			ourShader.setFloat("x", 0.0f);
+			ourShader.setFloat("y", 0.0f);
+			ourShader.setFloat("z", 0.0f);
+        }
+
+
+
         glBindVertexArray(VAO);
-
-        // modify uniforms
-        float timeValue = glfwGetTime();
-        float redValue = (cos(timeValue) / 2.0f) + 0.489f;
-		ourShader.setFloat("offset1", redValue);
-
-		float timeValue2 = glfwGetTime();
-		float greenValue = (-sin(timeValue2) / 2.0f) + 0.489f;
-		ourShader.setFloat("offset2", greenValue);
-
-		float timeValue3 = glfwGetTime();
-		float blueValue = (-cos(timeValue3) / 2.0f) + 0.489f;
-		ourShader.setFloat("offset3", blueValue);
-
-        glDrawArrays(GL_TRIANGLES, 0, 12);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
@@ -166,6 +252,16 @@ void processInput(GLFWwindow* window)
     {
         std::cout << "Background color set to white" << std::endl;
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    }
+    if (glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS)
+    {
+        std::cout << "Enable Shader uniform\n";
+        PLEASE_DELETAE_THIS_AT_ALL_COSTS = 1;
+    }
+    if (glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS)
+    {
+        std::cout << "Disable Shader uniform\n";
+        PLEASE_DELETAE_THIS_AT_ALL_COSTS = 0;
     }
 }
 
