@@ -14,6 +14,7 @@ uniform float z;
 
 void main()
 {
-    vec3 temp = vec3(ourColor.x-offset1, ourColor.y-offset2, ourColor.z-offset3);
-    FragColor = vec4(temp, 1.0f);
+    vec4 temp = texture(ourTexture, -TexCoord);
+    vec4 res = vec4(temp.x+x,temp.y+y,temp.z+z,temp.w);
+    FragColor = res;
 }
