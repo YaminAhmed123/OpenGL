@@ -1,3 +1,4 @@
 # OpenGL based Render Engine
-This render engine is in development and is meant for realtime object viewing.
-The goal is to have a lot of shaders that can be applied to the Objects and also support extern Shaders but all of these will be implemented in the future.
+## Aimed features
+This project is about an OpenGL based render engine the goal is to load 3D model from Blender using the .obj files and later on add support for single image render and include a Ray Tracer.
+The project was built using [OpenGL](https://www.khronos.org/) which is maintained by the khronos group. 
