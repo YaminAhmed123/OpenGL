@@ -1,5 +1,5 @@
 # OpenGL based Render Engine
-This project is a [OpenGL](https://www.khronos.org/) based render engine with linux and windows support the goal is to be feature rich and cross compilable.
+This project is an [OpenGL](https://www.khronos.org/) based render engine with linux and windows support the goal is to be feature rich and cross compilable.
 
 ## Features
 - Model loading from obj files that can be created in Blender
