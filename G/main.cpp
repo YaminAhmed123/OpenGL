@@ -4,13 +4,17 @@
 #include <GLFW/glfw3.h>
 #include "headers/shader_s.h"
 #include <iostream>
+#include <thread>
+#include <chrono>
+
+
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "headers/stb_image.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
-
+void updateFPS(float time1);
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
@@ -162,11 +166,12 @@ int main()
     // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
     // glBindVertexArray(0);
 
-
+    float timeForSecond = 0.0f;
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
     {
+        auto ms1 = std::chrono::high_resolution_clock::now();
         // input
         // -----
         processInput(window);
@@ -209,6 +214,17 @@ int main()
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
         glfwPollEvents();
+
+        auto ms2 = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<float> duration = ms2 - ms1;
+        float timeFPS = duration.count();
+        timeForSecond += timeFPS;
+
+        if(timeForSecond > 0.5f)
+        {
+            updateFPS(timeFPS);
+            timeForSecond = 0.0f;
+        }
     }
 
     // optional: de-allocate all resources once they've outlived their purpose:
@@ -231,41 +247,55 @@ void processInput(GLFWwindow* window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
     {
-        std::cout << "Terminate Application\n";
+        // std::cout << "Terminate Application\n";
         glfwSetWindowShouldClose(window, true);
     }
     if(glfwGetKey(window,GLFW_KEY_1) == GLFW_PRESS)
     {
-		std::cout << "Wireframe mode" << std::endl; 
+		// std::cout << "Wireframe mode" << std::endl; 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     }
     if(glfwGetKey(window,GLFW_KEY_2) == GLFW_PRESS)
     {
-		std::cout << "Fill mode" << std::endl;
+		// std::cout << "Fill mode" << std::endl;
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
 
     // add the back color to keys
     if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
     {
-        std::cout << "Background color set to black" << std::endl;
+        //std::cout << "Background color set to black" << std::endl;
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     }
     if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS)
     {
-        std::cout << "Background color set to white" << std::endl;
+        // std::cout << "Background color set to white" << std::endl;
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     }
     if (glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS)
     {
-        std::cout << "Enable Shader uniform\n";
+        // std::cout << "Enable Shader uniform\n";
         PLEASE_DELETAE_THIS_AT_ALL_COSTS = 1;
     }
     if (glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS)
     {
-        std::cout << "Disable Shader uniform\n";
+        // std::cout << "Disable Shader uniform\n";
         PLEASE_DELETAE_THIS_AT_ALL_COSTS = 0;
     }
+
+    if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS)
+    {
+        // std::cout << "Disable Shader uniform\n";
+        glfwSwapInterval(0);  // Disable V-Sync
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS)
+    {
+        // std::cout << "Disable Shader uniform\n";
+        glfwSwapInterval(1);  // Enable V-Sync
+    }
+
+    
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
@@ -275,4 +305,11 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     // make sure the viewport matches the new window dimensions; note that width and 
     // height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height);
+}
+
+void updateFPS(float time1)
+{
+    float avgFPS = 1.0f / time1;      // its all in ms the vals
+    std::cout << "\rFPS: " << avgFPS << std::flush;
+
 }
