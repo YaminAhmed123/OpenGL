@@ -16,7 +16,7 @@ void main()
 {
     
     vec4 temp = texture(ourTexture, -TexCoord) * vec4(ourColor, 1.0f);
-    vec4 res = vec4(sin(temp.x/x*y+z*z),sin(temp.y/y*x+z*z),sin(temp.z/z*y+z*z),temp.w);
+    vec4 res = vec4(temp.x+x, temp.y+y, temp.z+z,temp.w);
  
     FragColor = res;
 }

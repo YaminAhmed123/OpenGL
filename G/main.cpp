@@ -1,4 +1,4 @@
-// this branch will be used to learn texture loading
+// now for tranbsformations scaling and rotating
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -7,14 +7,17 @@
 #include <thread>
 #include <chrono>
 
-
+//GLM includes
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "headers/stb_image.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
-void updateFPS(float time1);
+void updateFPS(double time1);
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
@@ -63,8 +66,8 @@ int main()
 
     // build and compile our shader program
     // ------------------------------------
-    const char* vPath = "vertexShader.glsl";
-    const char* fPath = "fragmentShader.glsl";
+    const char* vPath = "shader/vertexShader.glsl";
+    const char* fPath = "shader/fragmentShader.glsl";
     Shader ourShader(vPath, fPath); // you can name your shader files however you like
 
 
@@ -157,10 +160,9 @@ int main()
     glEnableVertexAttribArray(2);
 
 
-
-
-
-
+    glm::vec3 scale = glm::vec3(0.7f,0.7f,1.0f);
+    glm::mat4 MAT;
+    int ngin = 0;
 	
     // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
     // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
@@ -171,6 +173,7 @@ int main()
     // -----------
     while (!glfwWindowShouldClose(window))
     {
+
         auto ms1 = std::chrono::high_resolution_clock::now();
         // input
         // -----
@@ -205,6 +208,11 @@ int main()
 			ourShader.setFloat("z", 0.0f);
         }
 
+        // that shit is to rotate this with sin(x)
+        MAT = glm::mat4(1.0f);
+        MAT = glm::rotate(MAT, glm::radians(90.0f * static_cast<float>(sin(glm::pi<float>() * static_cast<float>(glfwGetTime())))), glm::vec3(0.0f, 0.0f, 1.0f));
+        MAT = glm::scale(MAT, glm::vec3(1.0f * glm::abs(sin(glm::pi<float>() * glfwGetTime())), 1.0f * glm::abs(sin(glm::pi<float>() * glfwGetTime())) , 1.0f));
+        ourShader.setMatrix4("rotation", MAT);
 
 
         glBindVertexArray(VAO);
@@ -212,16 +220,18 @@ int main()
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
-        glfwSwapBuffers(window);
         glfwPollEvents();
+        glfwSwapBuffers(window);
 
         auto ms2 = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<float> duration = ms2 - ms1;
-        float timeFPS = duration.count();
+        std::chrono::duration<double> duration = ms2 - ms1;
+        double timeFPS = duration.count();
         timeForSecond += timeFPS;
-
-        if(timeForSecond > 0.5f)
+        if(timeForSecond > 5.5f)
         {
+
+            
+            
             updateFPS(timeFPS);
             timeForSecond = 0.0f;
         }
@@ -307,7 +317,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     glViewport(0, 0, width, height);
 }
 
-void updateFPS(float time1)
+void updateFPS(double time1)
 {
     float avgFPS = 1.0f / time1;      // its all in ms the vals
     std::cout << "\rFPS: " << avgFPS << std::flush;

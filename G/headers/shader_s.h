@@ -5,6 +5,10 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 
 class Shader
 {
@@ -72,6 +76,8 @@ public:
     {
         glUseProgram(ID);
     }
+
+
     // utility uniform functions
     // ------------------------------------------------------------------------
     void setBool(const std::string& name, bool value) const
@@ -87,6 +93,14 @@ public:
     void setFloat(const std::string& name, float value) const
     {
         glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
+    }
+
+
+    // Matrix
+    void setMatrix4(const std::string& name, glm::mat4 value)
+    {
+        GLuint location = glGetUniformLocation(ID, name.c_str()); // Get uniform location
+        glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
     }
 
 private:
