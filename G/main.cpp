@@ -208,6 +208,7 @@ int main()
 			ourShader.setFloat("z", 0.0f);
         }
 
+
         // that shit is to rotate this with sin(x)
         MAT = glm::mat4(1.0f);
         MAT = glm::rotate(MAT, glm::radians(90.0f * static_cast<float>(sin(glm::pi<float>() * static_cast<float>(glfwGetTime())))), glm::vec3(0.0f, 0.0f, 1.0f));
