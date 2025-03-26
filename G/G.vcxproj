@@ -139,13 +139,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="headers\shader\shader_s.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="glad.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\stb_image.h" />
+    <ClInclude Include="headers\img_loading\stb_image.h" />
+    <ClInclude Include="headers\shader\shader_s.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="headers\shader_s.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\fragmentShader.glsl" />

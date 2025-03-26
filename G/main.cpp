@@ -1,30 +1,23 @@
-// now for tranbsformations scaling and rotating
-
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include "headers/shader_s.h"
-#include <iostream>
-#include <thread>
-#include <chrono>
 
-//GLM includes
+#define STB_IMAGE_IMPLEMENTATION
+#include "headers/img_loading/stb_image.h"
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "headers/stb_image.h"
+#include "headers/shader/shader_s.h"
+
+#include <iostream>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
-void updateFPS(double time1);
+
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
-
-
-
-int PLEASE_DELETAE_THIS_AT_ALL_COSTS = 0;
 
 int main()
 {
@@ -57,85 +50,23 @@ int main()
         return -1;
     }
 
-
-
-
-
-
-
-
-    // build and compile our shader program
+    // build and compile our shader zprogram
     // ------------------------------------
-    const char* vPath = "shader/vertexShader.glsl";
-    const char* fPath = "shader/fragmentShader.glsl";
-    Shader ourShader(vPath, fPath); // you can name your shader files however you like
-
-
-
-
-
-
+    Shader ourShader("shader/vertexShader.glsl", "shader/fragmentShader.glsl");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
     float vertices[] = {
         // positions          // colors           // texture coords
-         1.0f,  1.0f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
-         1.0f, -1.0f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
-        -1.0f, -1.0f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
-        -1.0f,  1.0f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
+         0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
+         0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
+        -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
+        -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left 
     };
-
-	// for the EBO this represents the indecies used to define the two tirangles based by the given 4 Vertexes above
     unsigned int indices[] = {
         0, 1, 3, // first triangle
         1, 2, 3  // second triangle
     };
-
-
-
-
-
-
-
-
-    // the setup code for loading the texture and using the filtering options
-    // if you forget what the filter was for look at the doc again please
-
-    unsigned int texture;
-
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-
-    // set the texture wrapping/filtering options (on the currently bound texture object)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-
-    // load and generate the texture
-    int width, height, nrChannels;
-    unsigned char* data = stbi_load("images/alterMann.jpg", &width, &height, &nrChannels, 0);
-    if (data)
-    {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else
-    {
-        std::cout << "Failed to load texture" << std::endl;
-    }
-    stbi_image_free(data);
-
-
-
-
-
-
-
-    // Over all buffer setup
-
     unsigned int VBO, VAO, EBO;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -160,92 +91,66 @@ int main()
     glEnableVertexAttribArray(2);
 
 
-    glm::vec3 scale = glm::vec3(0.7f,0.7f,1.0f);
-    glm::mat4 MAT;
-    int ngin = 0;
-	
-    // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
-    // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-    // glBindVertexArray(0);
+    // load and create a texture 
+    // -------------------------
+    unsigned int texture;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
+    // set the texture wrapping parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    // set texture filtering parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    // load image, create texture and generate mipmaps
+    int width, height, nrChannels;
+    // The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
+    unsigned char* data = stbi_load("images/alterMann.jpg", &width, &height, &nrChannels, 0);
+    if (data)
+    {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else
+    {
+        std::cout << "Failed to load texture" << std::endl;
+    }
+    stbi_image_free(data);
 
-    float timeForSecond = 0.0f;
+
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
     {
-
-        auto ms1 = std::chrono::high_resolution_clock::now();
         // input
         // -----
         processInput(window);
 
         // render
         // ------
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-		// render the set of triangle that resembles a square
+        // bind Texture
+        glBindTexture(GL_TEXTURE_2D, texture);
+
+        // render container
         ourShader.use();
-
-        // utility uniform setup
-        if(PLEASE_DELETAE_THIS_AT_ALL_COSTS != 0)
-        {
-            float timeValueX = glfwGetTime();
-            float xValue = (sin(timeValueX) / 2.0f) + 0.2f;
-
-            float timeValueY = glfwGetTime();
-            float yValue = (cos(timeValueY) / 2.0f) + 0.2f;
-
-            float timeValueZ = glfwGetTime();
-            float zValue = (-sin(timeValueZ) / 2.0f) + 0.2f;
-
-            ourShader.setFloat("x", xValue);
-            ourShader.setFloat("y", yValue);
-            ourShader.setFloat("z", zValue);
-        }
-        else {
-			ourShader.setFloat("x", 0.0f);
-			ourShader.setFloat("y", 0.0f);
-			ourShader.setFloat("z", 0.0f);
-        }
-
-
-        // that shit is to rotate this with sin(x)
-        MAT = glm::mat4(1.0f);
-        MAT = glm::rotate(MAT, glm::radians(90.0f * static_cast<float>(sin(glm::pi<float>() * static_cast<float>(glfwGetTime())))), glm::vec3(0.0f, 0.0f, 1.0f));
-        MAT = glm::scale(MAT, glm::vec3(1.0f * glm::abs(sin(glm::pi<float>() * glfwGetTime())), 1.0f * glm::abs(sin(glm::pi<float>() * glfwGetTime())) , 1.0f));
-        ourShader.setMatrix4("rotation", MAT);
-
-
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
-        glfwPollEvents();
         glfwSwapBuffers(window);
-
-        auto ms2 = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double> duration = ms2 - ms1;
-        double timeFPS = duration.count();
-        timeForSecond += timeFPS;
-        if(timeForSecond > 5.5f)
-        {
-
-            
-            
-            updateFPS(timeFPS);
-            timeForSecond = 0.0f;
-        }
+        glfwPollEvents();
     }
 
     // optional: de-allocate all resources once they've outlived their purpose:
     // ------------------------------------------------------------------------
-    
-    
-    
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
+
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
     glfwTerminate();
@@ -257,56 +162,7 @@ int main()
 void processInput(GLFWwindow* window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-    {
-        // std::cout << "Terminate Application\n";
         glfwSetWindowShouldClose(window, true);
-    }
-    if(glfwGetKey(window,GLFW_KEY_1) == GLFW_PRESS)
-    {
-		// std::cout << "Wireframe mode" << std::endl; 
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    }
-    if(glfwGetKey(window,GLFW_KEY_2) == GLFW_PRESS)
-    {
-		// std::cout << "Fill mode" << std::endl;
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    }
-
-    // add the back color to keys
-    if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
-    {
-        //std::cout << "Background color set to black" << std::endl;
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    }
-    if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS)
-    {
-        // std::cout << "Background color set to white" << std::endl;
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-    }
-    if (glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS)
-    {
-        // std::cout << "Enable Shader uniform\n";
-        PLEASE_DELETAE_THIS_AT_ALL_COSTS = 1;
-    }
-    if (glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS)
-    {
-        // std::cout << "Disable Shader uniform\n";
-        PLEASE_DELETAE_THIS_AT_ALL_COSTS = 0;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS)
-    {
-        // std::cout << "Disable Shader uniform\n";
-        glfwSwapInterval(0);  // Disable V-Sync
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS)
-    {
-        // std::cout << "Disable Shader uniform\n";
-        glfwSwapInterval(1);  // Enable V-Sync
-    }
-
-    
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
@@ -316,11 +172,4 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     // make sure the viewport matches the new window dimensions; note that width and 
     // height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height);
-}
-
-void updateFPS(double time1)
-{
-    float avgFPS = 1.0f / time1;      // its all in ms the vals
-    std::cout << "\rFPS: " << avgFPS << std::flush;
-
 }
