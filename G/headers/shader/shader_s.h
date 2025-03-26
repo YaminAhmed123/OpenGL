@@ -22,7 +22,6 @@ private:
 public:
 	Shader(std::string vertexPath, std::string fragmentPath);
 	void use();
-	void init();
 
 	//utility functions for uniform types
 	void setBool(const std::string& name, bool value) const;

@@ -105,10 +105,6 @@ void Shader::setUpShader()
 }
 
 
-void Shader::init()
-{
-
-}
 
 void Shader::use()
 {
