@@ -108,7 +108,7 @@ void Shader::setUpShader()
 
 
 
-void Shader::use()
+void Shader::use() const
 {
 	glUseProgram(this->ID);
 }
@@ -116,34 +116,49 @@ void Shader::use()
 
 //utility implementation
 
-void ifUniformNotFound(unsigned int location, std::string name)
+static int ifUniformFound(unsigned int location, std::string name)
 {
-	if (location == -1) { std::cout << "There is no uniform found with the Name: " << name << std::endl; }
+	if (location == -1) { 
+	 	std::cout << "There is no uniform found with the Name: " << name << std::endl;
+		return -1;
+	}
+	return 1;
 }
 
 
 
-void Shader::setFloat(std::string name, float value)
-{
-	const char* nameC = name.c_str();
-	unsigned int location = glGetUniformLocation(this->ID, nameC);
-	ifUniformNotFound(location, name);
-	glUniform1f(location, value);
-}
-
-void Shader::setInt(std::string name, int value)
+void Shader::setFloat(std::string name, float value) const
 {
 	const char* nameC = name.c_str();
 	unsigned int location = glGetUniformLocation(this->ID, nameC);
-	ifUniformNotFound(location, name);
-	glUniform1i(location, value);
+	if (ifUniformFound(location, name)) {
+		glUniform1f(location, value);
+	}
 }
 
-void Shader::setVector3(std::string name, float x, float y , float z)
+void Shader::setInt(std::string name, int value) const
 {
 	const char* nameC = name.c_str();
 	unsigned int location = glGetUniformLocation(this->ID, nameC);
-	ifUniformNotFound(location, name);
-	glUniform3f(location, x,y,z);
+	if (ifUniformFound(location, name)) {
+		glUniform1i(location, value);
+	}
 }
 
+void Shader::setVector3(std::string name, float x, float y , float z) const 
+{
+	const char* nameC = name.c_str();
+	unsigned int location = glGetUniformLocation(this->ID, nameC);
+	if (ifUniformFound(location, name)) {
+		glUniform3f(location, x,y,z);
+	}
+}
+
+void Shader::setVector2(std::string name, float x, float y) const 
+{
+	const char* nameC = name.c_str();
+	unsigned int location = glGetUniformLocation(this->ID, nameC);
+	if(ifUniformFound(location, name)){
+		glUniform2f(location, x, y);
+	}
+}

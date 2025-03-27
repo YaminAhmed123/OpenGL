@@ -18,6 +18,8 @@ void processInput(GLFWwindow* window);
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
+static bool stateOfShader = false;
+
 
 int main()
 {
@@ -53,6 +55,7 @@ int main()
     // build and compile our shader zprogram
     // ------------------------------------
     Shader ourShader("shader/vertexShader.glsl", "shader/fragmentShader.glsl");
+    Shader shader("shader/v.glsl", "shader/f.glsl");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -135,17 +138,33 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        float time = static_cast<float>(glfwGetTime());
-        float valX = glm::sin(time);
-        float valY = glm::cos(time);
-        float valZ = -glm::sin(time);
-        ourShader.setVector3("lol",valX,valY,valZ);
+
+
+        // select which shader to use
+        if (stateOfShader) {
+            shader.use();
+            float time = static_cast<float>(glfwGetTime());
+            float valX = glm::sin(time);
+            float valY = glm::cos(time);
+            float valZ = -glm::sin(time);
+            shader.setVector3("lol", valX, valY, valZ);
+        }
+        else {
+            ourShader.use();
+            float time = static_cast<float>(glfwGetTime());
+            float valX = glm::sin(time);
+            float valY = glm::cos(time);
+            float valZ = -glm::sin(time);
+            ourShader.setVector3("lol", valX, valY, valZ);
+        }
+
+        
 
         // bind Texture
         glBindTexture(GL_TEXTURE_2D, texture);
 
         // render container
-        ourShader.use();
+        
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
@@ -173,6 +192,14 @@ void processInput(GLFWwindow* window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+
+    if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
+        stateOfShader = true;
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
+        stateOfShader = false;
+    }
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
