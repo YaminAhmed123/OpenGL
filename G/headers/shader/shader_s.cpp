@@ -81,6 +81,7 @@ void Shader::setUpShader()
 		std::cout << vLog << "\n\n\n\n\n" << std::endl;
 	}
 	state = 1;
+	glGetShaderiv(fragment, GL_COMPILE_STATUS, &state);
 	if (!state)
 	{
 		glGetShaderInfoLog(fragment, 512, NULL, fLog);
@@ -94,6 +95,7 @@ void Shader::setUpShader()
 
 	// check linking state
 	state = 1;
+	glGetShaderiv(this->ID, GL_LINK_STATUS, &state);
 	if (!state)
 	{
 		glGetShaderInfoLog(this->ID, 512, NULL, lLog);
@@ -113,17 +115,35 @@ void Shader::use()
 
 
 //utility implementation
-void Shader::setBool(const std::string& name, bool value) const
+
+void ifUniformNotFound(unsigned int location, std::string name)
 {
-	glUniform1i(glGetUniformLocation(this->ID, name.c_str()), (int)value);
-}
-void Shader::setInt(const std::string& name, int value) const
-{
-	glUniform1i(glGetUniformLocation(this->ID, name.c_str()), value);
-}
-void Shader::setFloat(const std::string& name, float value) const
-{
-	glUniform1f(glGetUniformLocation(this->ID, name.c_str()), value);
+	if (location == -1) { std::cout << "There is no uniform found with the Name: " << name << std::endl; }
 }
 
+
+
+void Shader::setFloat(std::string name, float value)
+{
+	const char* nameC = name.c_str();
+	unsigned int location = glGetUniformLocation(this->ID, nameC);
+	ifUniformNotFound(location, name);
+	glUniform1f(location, value);
+}
+
+void Shader::setInt(std::string name, int value)
+{
+	const char* nameC = name.c_str();
+	unsigned int location = glGetUniformLocation(this->ID, nameC);
+	ifUniformNotFound(location, name);
+	glUniform1i(location, value);
+}
+
+void Shader::setVector3(std::string name, float x, float y , float z)
+{
+	const char* nameC = name.c_str();
+	unsigned int location = glGetUniformLocation(this->ID, nameC);
+	ifUniformNotFound(location, name);
+	glUniform3f(location, x,y,z);
+}
 

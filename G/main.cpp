@@ -104,6 +104,8 @@ int main()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     // load image, create texture and generate mipmaps
     int width, height, nrChannels;
+    stbi_set_flip_vertically_on_load(true);
+
     // The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
     unsigned char* data = stbi_load("images/alterMann.jpg", &width, &height, &nrChannels, 0);
     if (data)
@@ -117,6 +119,8 @@ int main()
     }
     stbi_image_free(data);
 
+    ourShader.use();
+    
 
     // render loop
     // -----------
@@ -130,6 +134,12 @@ int main()
         // ------
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
+        float time = static_cast<float>(glfwGetTime());
+        float valX = glm::sin(time);
+        float valY = glm::cos(time);
+        float valZ = -glm::sin(time);
+        ourShader.setVector3("lol",valX,valY,valZ);
 
         // bind Texture
         glBindTexture(GL_TEXTURE_2D, texture);

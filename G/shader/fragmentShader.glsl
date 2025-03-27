@@ -6,8 +6,11 @@ in vec2 TexCoord;
 
 uniform sampler2D ourTexture;
 
+uniform vec3 lol;
+
 void main()
 {
     vec4 temp = texture(ourTexture, TexCoord);
-    FragColor = vec4(-temp.x, -temp.y, temp.z, temp.w);
+    temp = vec4(temp.x+lol.x, temp.y+lol.y, temp.z+lol.z, temp.w);
+    FragColor = temp;
 }
