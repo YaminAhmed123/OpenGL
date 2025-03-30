@@ -162,3 +162,13 @@ void Shader::setVector2(std::string name, float x, float y) const
 		glUniform2f(location, x, y);
 	}
 }
+
+void Shader::setMat4(std::string name, unsigned int count, GLboolean state, GLfloat* value_ptr) const
+{
+	const char* nameC = name.c_str();
+	unsigned int location = glGetUniformLocation(this->ID, nameC);
+	if(ifUniformFound(location, name))
+	{
+		glUniformMatrix4fv(location, count, state, value_ptr);
+	}
+}
