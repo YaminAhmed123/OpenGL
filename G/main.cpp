@@ -222,19 +222,25 @@ int main()
 
     // rotate the ass cube lol
     
-    model = glm::rotate(model, glm::abs(glm::sin((float)glfwGetTime())) * glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-    model2 = glm::rotate(model2, glm::abs(glm::sin((float)glfwGetTime())) * glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    model = glm::rotate(model, 1 * glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    model2 = glm::rotate(model2, 1 * glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 
+    float timeFirst, timeLast, deltaTime;
+    timeFirst = glfwGetTime();
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
     {
+
+
         glEnable(GL_DEPTH_TEST);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        
-        model = glm::rotate(model, glm::abs(glm::sin((float)glfwGetTime())) * glm::radians(5.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        model2 = glm::rotate(model2, glm::abs(glm::sin((float)glfwGetTime())) * glm::radians(5.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        timeLast = glfwGetTime();
+        deltaTime = timeLast - timeFirst;
+
+        model = glm::rotate(model, glm::radians(50.0f) * deltaTime, glm::vec3(0.0f, 1.0f, 0.0f));
+        model2 = glm::rotate(model2, glm::radians(50.0f) * deltaTime, glm::vec3(0.0f, 1.0f, 0.0f));
 
         // input
         // -----
@@ -285,6 +291,8 @@ int main()
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
         glfwPollEvents();
+        timeFirst = timeLast;
+
     }
 
     // optional: de-allocate all resources once they've outlived their purpose:
