@@ -14,8 +14,6 @@ link_directories(${CMAKE_SOURCE_DIR}/Dependencies/lib)
 # Collect source files
 file(GLOB_RECURSE SRC_FILES src/*.cpp)
 
+
 # Create the executable
 add_executable(OpenGL ${SRC_FILES})
-
-# Link GLFW library
-target_link_libraries(OpenGL PRIVATE libglfw3.a)
