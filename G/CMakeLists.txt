@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(MyProject)
+project(OpenGL)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
@@ -15,7 +15,7 @@ link_directories(${CMAKE_SOURCE_DIR}/Dependencies/lib)
 file(GLOB_RECURSE SRC_FILES src/*.cpp)
 
 # Create the executable
-add_executable(MyProject ${SRC_FILES})
+add_executable(OpenGL ${SRC_FILES})
 
 # Link GLFW library
-target_link_libraries(MyProject PRIVATE glfw3.lib)
+target_link_libraries(OpenGL PRIVATE glfw3.lib)
