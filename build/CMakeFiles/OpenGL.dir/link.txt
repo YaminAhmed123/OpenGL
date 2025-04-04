@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/OpenGL.dir/src/headers/camera/camera_s.cpp.o CMakeFiles/OpenGL.dir/src/headers/shader/shader_s.cpp.o CMakeFiles/OpenGL.dir/src/main.cpp.o -o OpenGL   -L/home/yamin/repos/CPP/OpenGL/Dependencies/lib  -Wl,-rpath,/home/yamin/repos/CPP/OpenGL/Dependencies/lib -Wl,-Bstatic -lglfw3 -Wl,-Bdynamic 

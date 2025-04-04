@@ -1,0 +1,3 @@
+/home/yamin/repos/CPP/OpenGL/build/CMakeFiles/OpenGL.dir
+/home/yamin/repos/CPP/OpenGL/build/CMakeFiles/edit_cache.dir
+/home/yamin/repos/CPP/OpenGL/build/CMakeFiles/rebuild_cache.dir
