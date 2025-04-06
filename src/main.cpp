@@ -2,14 +2,13 @@
 #include <GLFW/glfw3.h>
 
 #define STB_IMAGE_IMPLEMENTATION
-#include "headers/img_loading/stb_image.h"
+#include <headers/img_loading/stb_image.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "headers/shader/shader_s.h"
-
+#include <headers/shader/shader_s.h>
 #include <iostream>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);

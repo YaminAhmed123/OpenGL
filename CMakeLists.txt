@@ -1,9 +1,39 @@
 cmake_minimum_required(VERSION 3.10)
-project(OpenGLApp)
+project(RenderEngine)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 20)
 
 # Include directories
-include_directories(${SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Dependencies/include)
 
+# fetches all source files and stores their path in the SOURCE variable
+set(SOURCES
+    src/main.cpp
+    src/glad.c
+    src/implementation/shader_s.cpp
+    src/implementation/camera_s.cpp
+)
+
+add_library(RenderEngineObject OBJECT ${SOURCES})
+
+# now here comes the part where its gets OS specific
+add_executable(RenderEngineExecutable
+    $<TARGET_OBJECTS:RenderEngineObject>
+)
+
+# Link statically built GLFW and required system libraries
+target_link_libraries(RenderEngineExecutable
+    ${CMAKE_CURRENT_SOURCE_DIR}/Dependencies/lib/libglfw3.a
+
+    # GLFW dependencies on Linux
+    pthread
+    dl
+    m
+    X11
+    Xrandr
+    Xi
+    Xxf86vm
+    Xcursor
+    GL
+)
