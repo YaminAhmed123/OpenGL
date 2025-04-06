@@ -17,23 +17,38 @@ set(SOURCES
 
 add_library(RenderEngineObject OBJECT ${SOURCES})
 
-# now here comes the part where its gets OS specific
-add_executable(RenderEngineExecutable
-    $<TARGET_OBJECTS:RenderEngineObject>
-)
 
-# Link statically built GLFW and required system libraries
-target_link_libraries(RenderEngineExecutable
-    ${CMAKE_CURRENT_SOURCE_DIR}/Dependencies/lib/libglfw3.a
+if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    # Code for Linux
+    # now here comes the part where its gets OS specific
+    add_executable(RenderEngineExecutable
+        $<TARGET_OBJECTS:RenderEngineObject>
+    )
 
-    # GLFW dependencies on Linux
-    pthread
-    dl
-    m
-    X11
-    Xrandr
-    Xi
-    Xxf86vm
-    Xcursor
-    GL
-)
+    # Link statically built GLFW and required system libraries
+    target_link_libraries(RenderEngineExecutable
+        ${CMAKE_CURRENT_SOURCE_DIR}/Dependencies/lib/libglfw3.a
+
+        # GLFW dependencies on Linux
+        pthread
+        dl
+        m
+        X11
+        Xrandr
+        Xi
+        Xxf86vm
+        Xcursor
+        GL
+    )
+    
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    # Code for Windows
+    add_executable(RenderEngineExecutable
+        $<TARGET_OBJECTS:RenderEngineObject>
+    )
+
+    target_link_libraries(RenderEngineExecutable PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/Dependencies/lib/glfw3.lib)
+    
+else()
+    message(FATAL_ERROR "Unsupported platform: ${CMAKE_SYSTEM_NAME}")
+endif()
