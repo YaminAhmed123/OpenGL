@@ -1,4 +1,4 @@
-C:/Users/Yamin/source/repos/OpenGL/build/CMakeFiles/RenderEngineObject.dir
-C:/Users/Yamin/source/repos/OpenGL/build/CMakeFiles/RenderEngineExecutable.dir
-C:/Users/Yamin/source/repos/OpenGL/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/Yamin/source/repos/OpenGL/build/CMakeFiles/ZERO_CHECK.dir
+/home/yamin/repos/CPP/OpenGL/build/CMakeFiles/RenderEngineObject.dir
+/home/yamin/repos/CPP/OpenGL/build/CMakeFiles/RenderEngineExecutable.dir
+/home/yamin/repos/CPP/OpenGL/build/CMakeFiles/edit_cache.dir
+/home/yamin/repos/CPP/OpenGL/build/CMakeFiles/rebuild_cache.dir
