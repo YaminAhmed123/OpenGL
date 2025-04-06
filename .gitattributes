@@ -3,7 +3,6 @@
 ###############################################################################
 * text=auto
 *.glsl linguist-language=GLSL
-*.c linguist-language=C
 *.cpp linguist-language=CPP
 ###############################################################################
 # Set default behavior for command prompt diff.
