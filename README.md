@@ -12,3 +12,4 @@ This project is an [OpenGL](https://www.khronos.org/) based render engine with l
 ### Links we used for learning and building
 - [Learn OpenGL](https://learnopengl.com/) from my point of view a good ressource to learn OpenGL and get a grasp of the concepts
 - [Scratch Pixel](https://www.scratchapixel.com/index.html) explains a lot about **CG** in genereal and can be usful if you focus on specific aspects
+- [Cmake](https://cmake.org/) well this is the build tool used for this project.
