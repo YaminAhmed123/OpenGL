@@ -15,5 +15,9 @@ This project is an [OpenGL](https://www.khronos.org/) based render engine with l
 - [Cmake](https://cmake.org/) well this is the build tool used for this project.
 - [imGUI](https://github.com/ocornut/imgui) this is a selfcontained library for creating GUIs
 
-# How to compile ?
-## Tut will come in future
+## How to compile ?
+# Linux
+- clone the repo after that create a dir called build if there is no build directory.
+- then go type from the build dir the command cmake ..
+- after that type in the command make.
+- and last add the shader and images directories there where the executable file is located at
