@@ -12,9 +12,7 @@
 #include <iostream>
 
 //include imgui stuff
-#include <imgui/imgui.h>
-#include <imgui/imgui_impl_glfw.h>
-#include <imgui/imgui_impl_opengl3.h>
+#include <headers/gui.hpp>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
@@ -23,10 +21,16 @@ void processInput(GLFWwindow* window);
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 static bool stateOfShader = false;
+// global GUI state
+struct gui_state GUI;
 
 
 int main()
 {
+
+
+
+
     // glfw: initialize and configure
     // ------------------------------
     glfwInit();
@@ -57,16 +61,10 @@ int main()
     }
 
     
-    // Setup Dear ImGui context
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO();
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+    // Setup GUI
+    gui::setGUIforStart(&GUI);
+    gui::setUpGUI(window);
 
-    // Setup Platform/Renderer backends
-    ImGui_ImplGlfw_InitForOpenGL(window, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
-    ImGui_ImplOpenGL3_Init();
     
     
 
@@ -249,7 +247,7 @@ int main()
     float timeFirst, timeLast, deltaTime;
     timeFirst = glfwGetTime();
 
-    glViewport(0,0, SCR_WIDTH/1.5f, SCR_HEIGHT/1.5f);
+    
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
@@ -276,7 +274,7 @@ int main()
 
 
         // select which shader to use
-        if (stateOfShader) {
+        if (GUI.SHADER_STATE) {
             shader.use();
             float time = static_cast<float>(glfwGetTime());
             float valX = glm::sin(time);
@@ -312,17 +310,12 @@ int main()
 
         // (Your code calls glfwPollEvents())
         // ...
-        // Start the Dear ImGui frame
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
-        ImGui::ShowDemoWindow(); // Show demo window! :)
 
-        // Rendering
-        // (Your code clears your framebuffer, renders your other stuff etc.)
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-        // (Your code calls glfwSwapBuffers() etc.)
+
+        // Start the Dear ImGui frame
+        gui::setFrame();
+        gui::setUICode(&GUI, window);
+        gui::setRender();
 
 
 
@@ -334,9 +327,7 @@ int main()
 
     }
 
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
+    gui::cleanUp();
 
     // optional: de-allocate all resources once they've outlived their purpose:
     // ------------------------------------------------------------------------
@@ -379,7 +370,5 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     // make sure the viewport matches the new window dimensions; note that width and 
     // height will be significantly larger than specified on retina displays.
-    float resWidth = width/1.5f;
-    float resHeight = height/1.5f;
-    glViewport(0, 0, resWidth, resHeight);
+    glViewport(0, 0, width, height);
 }
