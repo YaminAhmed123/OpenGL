@@ -1,5 +1,7 @@
-# OpenGL based Render Engine
-This project is an [OpenGL](https://www.khronos.org/) based render engine with linux and windows support the goal is to be feature rich and cross compilable.
+# OpenGL based Render Engine [![Static Badge](https://img.shields.io/badge/GLFW-blue)](https://github.com/glfw/glfw)   [![Static Badge](https://img.shields.io/badge/ImGui-lightgreen)](https://github.com/ocornut/imgui)
+This project is an [OpenGL](https://www.khronos.org/) based render engine with linux and windows support the goal is to be feature rich and cross compilable.  
+
+
 
 
 ## Features
@@ -15,7 +17,8 @@ This project is an [OpenGL](https://www.khronos.org/) based render engine with l
 - [Cmake](https://cmake.org/) well this is the build tool used for this project.
 - [imGUI](https://github.com/ocornut/imgui) this is a selfcontained library for creating GUIs
 
-## How to compile ?
+## How to compile ?    [![Static Badge](https://img.shields.io/badge/MSVC-darkblue)](https://learn.microsoft.com/de-de/cpp/build/reference/compiler-options?view=msvc-170)   [![Static Badge](https://img.shields.io/badge/GCC-purple)](https://gcc.gnu.org/)   [![Static Badge](https://img.shields.io/badge/CMake-darkred)](https://cmake.org/)
+
 ### Linux
 - clone the repo after that create a dir called build if there is no build directory.
 - then go type from the build dir the command cmake ..
