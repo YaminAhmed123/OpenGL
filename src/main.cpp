@@ -24,6 +24,13 @@ const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 static bool stateOfShader = false;
 
+static void DOSHITANDGETREMOVED()
+{
+    for(int i = 1; i<=10000; i++)
+    {
+        std::cout << i << "\n";
+    }
+}
 
 int main()
 {
@@ -357,18 +364,22 @@ void processInput(GLFWwindow* window)
         glfwSetWindowShouldClose(window, true);
 
     if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
+        DOSHITANDGETREMOVED();
         stateOfShader = true;
     }
 
     if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
+        DOSHITANDGETREMOVED();
         stateOfShader = false;
     }
 
     if (glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS) {
+        DOSHITANDGETREMOVED()
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     }
 
     if (glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS) {
+        DOSHITANDGETREMOVED()
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
 }

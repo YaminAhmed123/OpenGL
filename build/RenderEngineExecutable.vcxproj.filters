@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Yamin\Documents\Q-Phase\Q2\repos\OpenGL\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="C:\Users\Yamin\Documents\Q-Phase\Q2\repos\OpenGL\build\RenderEngineObject.dir\$(Configuration)\main.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\Yamin\Documents\Q-Phase\Q2\repos\OpenGL\build\RenderEngineObject.dir\$(Configuration)\glad.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\Yamin\Documents\Q-Phase\Q2\repos\OpenGL\build\RenderEngineObject.dir\$(Configuration)\shader_s.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\Yamin\Documents\Q-Phase\Q2\repos\OpenGL\build\RenderEngineObject.dir\$(Configuration)\camera_s.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\Yamin\Documents\Q-Phase\Q2\repos\OpenGL\build\RenderEngineObject.dir\$(Configuration)\imgui_draw.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\Yamin\Documents\Q-Phase\Q2\repos\OpenGL\build\RenderEngineObject.dir\$(Configuration)\imgui_impl_glfw.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\Yamin\Documents\Q-Phase\Q2\repos\OpenGL\build\RenderEngineObject.dir\$(Configuration)\imgui_impl_opengl3.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\Yamin\Documents\Q-Phase\Q2\repos\OpenGL\build\RenderEngineObject.dir\$(Configuration)\imgui_tables.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\Yamin\Documents\Q-Phase\Q2\repos\OpenGL\build\RenderEngineObject.dir\$(Configuration)\imgui_widgets.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\Yamin\Documents\Q-Phase\Q2\repos\OpenGL\build\RenderEngineObject.dir\$(Configuration)\imgui.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="C:\Users\Yamin\Documents\Q-Phase\Q2\repos\OpenGL\build\RenderEngineObject.dir\$(Configuration)\imgui_demo.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Object Libraries">
+      <UniqueIdentifier>{7D54CD80-A3C8-3471-8983-F265C2BE0C4B}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
