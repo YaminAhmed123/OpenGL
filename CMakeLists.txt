@@ -22,6 +22,7 @@ set(SOURCES
     src/imgui/imgui_tables.cpp
     src/imgui/imgui_widgets.cpp
     src/imgui/imgui.cpp
+    src/imgui/imgui_demo.cpp
 )
 
 add_library(RenderEngineObject OBJECT ${SOURCES})
