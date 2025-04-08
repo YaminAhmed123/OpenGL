@@ -12,10 +12,10 @@ This project is an [OpenGL](https://www.khronos.org/) based render engine with l
 - using Cmake as a cross build tool for windows and linux for easy usage
 
 ### Links we used for learning and building
-- [Learn OpenGL](https://learnopengl.com/) from my point of view a good ressource to learn OpenGL and get a grasp of the concepts
-- [Scratch Pixel](https://www.scratchapixel.com/index.html) explains a lot about **CG** in genereal and can be usful if you focus on specific aspects
-- [Cmake](https://cmake.org/) well this is the build tool used for this project.
-- [imGUI](https://github.com/ocornut/imgui) this is a selfcontained library for creating GUIs
+- [Learn OpenGL](https://learnopengl.com/) from my point of view a good resource to learn OpenGL and get a grasp of the concepts.
+- [Scratch Pixel](https://www.scratchapixel.com/index.html) explains a lot about **CG** in genereal and can be usful if you focus on specific aspects.
+- [Cmake](https://cmake.org/) CMake is the chosen build system for managing cross-platform builds.
+- [imGUI](https://github.com/ocornut/imgui) this is a selfcontained library for creating GUIs.
 
 ## How to compile ?    [![Static Badge](https://img.shields.io/badge/MSVC-darkblue)](https://learn.microsoft.com/de-de/cpp/build/reference/compiler-options?view=msvc-170)   [![Static Badge](https://img.shields.io/badge/GCC-purple)](https://gcc.gnu.org/)   [![Static Badge](https://img.shields.io/badge/CMake-darkred)](https://cmake.org/)
 
