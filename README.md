@@ -14,3 +14,5 @@ This project is an [OpenGL](https://www.khronos.org/) based render engine with l
 - [Scratch Pixel](https://www.scratchapixel.com/index.html) explains a lot about **CG** in genereal and can be usful if you focus on specific aspects
 - [Cmake](https://cmake.org/) well this is the build tool used for this project.
 - [imGUI](https://github.com/ocornut/imgui) this is a selfcontained library for creating GUIs
+
+# How to compile ?
