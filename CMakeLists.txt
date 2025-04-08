@@ -5,7 +5,10 @@ project(RenderEngine)
 set(CMAKE_CXX_STANDARD 20)
 
 # Include directories
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Dependencies/include)
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}/Dependencies/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/Dependencies/include/imgui
+)
 
 # fetches all source files and stores their path in the SOURCE variable
 set(SOURCES
@@ -13,10 +16,15 @@ set(SOURCES
     src/glad.c
     src/implementation/shader_s.cpp
     src/implementation/camera_s.cpp
+    src/imgui/imgui_draw.cpp
+    src/imgui/imgui_impl_glfw.cpp
+    src/imgui/imgui_impl_opengl3.cpp
+    src/imgui/imgui_tables.cpp
+    src/imgui/imgui_widgets.cpp
+    src/imgui/imgui.cpp
 )
 
 add_library(RenderEngineObject OBJECT ${SOURCES})
-
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     # Code for Linux

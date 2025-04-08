@@ -51,6 +51,23 @@ int main()
         return -1;
     }
 
+    /*
+    // Setup Dear ImGui context
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+    // Setup Platform/Renderer backends
+    ImGui_ImplGlfw_InitForOpenGL(window, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
+    ImGui_ImplOpenGL3_Init();
+    */
+    
+
+
+
+
     // build and compile our shader zprogram
     // ------------------------------------
     Shader ourShader("shader/vertexShader.glsl", "shader/fragmentShader.glsl");
@@ -226,6 +243,8 @@ int main()
 
     float timeFirst, timeLast, deltaTime;
     timeFirst = glfwGetTime();
+
+    glViewport(0,0, SCR_WIDTH/1.5f, SCR_HEIGHT/1.5f);
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
@@ -335,5 +354,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     // make sure the viewport matches the new window dimensions; note that width and 
     // height will be significantly larger than specified on retina displays.
-    glViewport(0, 0, width, height);
+    float resWidth = width/1.5f;
+    float resHeight = height/1.5f;
+    glViewport(0, 0, resWidth, resHeight);
 }
