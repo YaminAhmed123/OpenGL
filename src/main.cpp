@@ -9,6 +9,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include <headers/shader/shader_s.hpp>
+#include <headers/opengl.hpp>
 #include <iostream>
 
 //include imgui stuff
@@ -73,10 +74,10 @@ int main()
 
     // build and compile our shader zprogram
     // ------------------------------------
-    Shader ourShader("shader/vertexShader.glsl", "shader/fragmentShader.glsl");
-    Shader shader("shader/v.glsl", "shader/f.glsl");
-
-
+    Shader ourShader;
+    Shader shader;
+    opengl::state::createShader(&shader, "shader/v.glsl", "shader/f.glsl");
+    opengl::state::createShader(&ourShader, "shader/vertexShader.glsl", "shader/fragmentShader.glsl");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------

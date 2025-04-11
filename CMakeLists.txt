@@ -17,6 +17,8 @@ set(SOURCES
     src/implementation/shader_s.cpp
     src/implementation/camera_s.cpp
     src/implementation/gui.cpp
+    src/implementation/opengl_state.cpp
+    src/implementation/triangulated_mesh.cpp
     src/imgui/imgui_draw.cpp
     src/imgui/imgui_impl_glfw.cpp
     src/imgui/imgui_impl_opengl3.cpp

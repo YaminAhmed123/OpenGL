@@ -21,6 +21,7 @@ private:
 
 public:
 	Shader(std::string vertexPath, std::string fragmentPath);
+	Shader(){}; // no args constructor
 	void use() const;
 
 	/*
