@@ -14,7 +14,7 @@ namespace opengl {
     namespace state
     {
         
-        void createShader(Shader* shader, std::string vPath, std::string fPath); // will use a shader 
+        void createShader(Shader* shader, std::string vPath, std::string fPath); // creates a shader and writes it to the specified adress
     }
 }
 
