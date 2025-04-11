@@ -8,7 +8,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <headers/shader/shader_s.h>
+#include <headers/shader/shader_s.hpp>
 #include <iostream>
 
 //include imgui stuff
