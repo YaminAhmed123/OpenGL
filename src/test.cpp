@@ -8,6 +8,10 @@ struct vertex{
     float u,v;
 };
 
+struct face{
+    int first, second, third;
+};
+
 int countSubStringAmount(std::ifstream& stream, std::string substring)
 {
     int count = 0;
@@ -39,7 +43,7 @@ void loadDataFromStreamForVertexBuffer(std::ifstream& stream, struct vertex* ver
     }
 }
 
-void loadDataFromStreamForIndeciesBuffer(std::ifstream& stream, int* indeciesBuffer)
+void loadDataFromStreamForIndeciesBuffer(std::ifstream& stream, struct face* faceBuffer)
 {
     int index = 0;
     std::string line;
@@ -48,9 +52,7 @@ void loadDataFromStreamForIndeciesBuffer(std::ifstream& stream, int* indeciesBuf
         if(line.rfind("f ", 0) == 0)
         {
             const char* CLine = line.c_str();
-            sscanf(CLine, "f %d %d %d", &indeciesBuffer[index], &indeciesBuffer[index+1], &indeciesBuffer[index+2]);
-            ++index;
-            ++index;
+            sscanf(CLine, "f %d %d %d", &faceBuffer[index].first, &faceBuffer[index].second, &faceBuffer[index].third);
             ++index;
         } else{}
     }
@@ -63,17 +65,18 @@ int main()
     std::ifstream file2("obj1.obj");
 
     int zahl = countSubStringAmount(file, "f ");
-    std::cout << zahl << std::endl;
-    int* array = new int[zahl];
 
-    loadDataFromStreamForIndeciesBuffer(file2, array);
+    struct face* face_ptr = new struct face[zahl];
+
+    loadDataFromStreamForIndeciesBuffer(file2, face_ptr);
 
     for(int i = 0; i<zahl; i++)
     {
-        int c = i+1;
-        int cc = i+2;
-        std::cout << array[i] << " " << array[c] << " " << array[cc] << std::endl;
+        std::cout << face_ptr[i].first << " " << face_ptr[i].second << " " << face_ptr[i].third << std::endl; 
     }
+
+    delete[] face_ptr;
+    
 
     return 0;
 }

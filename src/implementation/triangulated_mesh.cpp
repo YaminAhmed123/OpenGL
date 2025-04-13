@@ -34,7 +34,7 @@ static void loadDataFromStreamForVertexBuffer(std::ifstream& stream, struct vert
 }
 
 
-static void loadDataFromStreamForIndeciesBuffer(std::ifstream& stream, int* indeciesBuffer)
+static void loadDataFromStreamForFaceBuffer(std::ifstream& stream, struct face* faceBuffer)
 {
     int index = 0;
     std::string line;
@@ -43,14 +43,14 @@ static void loadDataFromStreamForIndeciesBuffer(std::ifstream& stream, int* inde
         if(line.rfind("f ", 0) == 0)
         {
             const char* CLine = line.c_str();
-            sscanf(CLine, "f %d %d %d", &indeciesBuffer[index], &indeciesBuffer[index+1], &indeciesBuffer[index+2]);
-            index+=3;
+            sscanf(CLine, "f %d %d %d", &faceBuffer[index].first, &faceBuffer[index].second, &faceBuffer[index].third);
+            ++index;
         } else{}
     }
 }
 
 
-void triangulated_mesh::getVertexBufferAndIndeciesBufferFromObjectFile(std::string path, struct vertex*& vertexBuffer, int*& indecies)
+void triangulated_mesh::getVertexBufferAndFaceBufferFromObjectFile(std::string path, struct vertex*& vertexBuffer, struct face*& faceBuffer, int& v_SIZE, int& f_SIZE)
 {
     int vAmount;
     int fAmount;
@@ -66,16 +66,17 @@ void triangulated_mesh::getVertexBufferAndIndeciesBufferFromObjectFile(std::stri
 
     //create Vertex Buffer
     vertexBuffer = new struct vertex[vAmount];
-    indecies = new int[fAmount];
+    faceBuffer = new struct face[fAmount];
 
     {
         std::ifstream file(path);
         loadDataFromStreamForVertexBuffer(file, vertexBuffer);
     }
 
-
-    
-    
-
-
+    {
+        std::ifstream file(path);
+        loadDataFromStreamForFaceBuffer(file, faceBuffer);
+    }
+    v_SIZE = vAmount;
+    f_SIZE = fAmount;
 }
