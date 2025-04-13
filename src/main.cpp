@@ -123,12 +123,27 @@ int main()
 
 
 
-    
+    for(int i = 0; i<opengl::state::size_INDECIES_BUFFER; i++)
+    {
+        opengl::state::ptr_INDECIES_BUFFER[i] = opengl::state::ptr_INDECIES_BUFFER[i]-1; 
+    }
 
 
 
     std::cout << opengl::state::size_VERTEX_BUFFER << std::endl;    // should be 8
     std::cout << opengl::state::size_INDECIES_BUFFER << std::endl;  // should be 36
+    for(int i = 0; i<opengl::state::size_FLOAT_BUFFER; i++)
+    {
+        std::cout << opengl::state::ptr_FLOAT_BUFFER[i];
+    }
+    std::cout << std::endl;
+
+    for(int i = 0; i<opengl::state::size_INDECIES_BUFFER; i++)
+    {
+        std::cout << opengl::state::ptr_INDECIES_BUFFER[i];
+    }
+    std::cout << std::endl;
+
 
 
 
