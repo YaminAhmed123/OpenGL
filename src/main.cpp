@@ -142,7 +142,10 @@ int main()
     std::cout << opengl::state::size_VERTEX_BUFFER << std::endl;    // should be 8
     std::cout << opengl::state::size_INDECIES_BUFFER << std::endl;  // should be 36
 
-    
+    for(int i = 0; i<opengl::state::size_INDECIES_BUFFER; i++)
+    {
+        std::cout << opengl::state::ptr_INDECIES_BUFFER[i] << "\n";
+    }
 
 
     unsigned int VBO, VAO, EBO;
