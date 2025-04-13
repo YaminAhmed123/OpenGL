@@ -28,6 +28,12 @@ void opengl::state::loadObject(std::string path)
         opengl::state::ptr_INDECIES_BUFFER,
         opengl::state::size_INDECIES_BUFFER
     );
+    opengl::utility::convertVerteciesToFloats(
+        opengl::state::size_VERTEX_BUFFER,
+        opengl::state::ptr_VERTEX_BUFFER,
+        opengl::state::ptr_FLOAT_BUFFER,
+        opengl::state::size_FLOAT_BUFFER
+    );
 }
 
 void opengl::state::cleanPointers()
@@ -35,6 +41,7 @@ void opengl::state::cleanPointers()
     delete[] opengl::state::ptr_FACE_BUFFER;
     delete[] opengl::state::ptr_INDECIES_BUFFER;
     delete[] opengl::state::ptr_VERTEX_BUFFER;
+    delete[] opengl::state::ptr_FLOAT_BUFFER;
 }
 
 /*

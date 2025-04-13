@@ -26,6 +26,55 @@ static bool stateOfShader = false;
 struct gui_state GUI;
 
 
+
+
+float vertices[] = {
+    -0.5f, -0.5f, -0.5f,  
+     0.5f, -0.5f, -0.5f,  
+     0.5f,  0.5f, -0.5f,  
+     0.5f,  0.5f, -0.5f,  
+    -0.5f,  0.5f, -0.5f,  
+    -0.5f, -0.5f, -0.5f,  
+
+    -0.5f, -0.5f,  0.5f, 
+     0.5f, -0.5f,  0.5f,  
+     0.5f,  0.5f,  0.5f,  
+     0.5f,  0.5f,  0.5f,  
+    -0.5f,  0.5f,  0.5f,  
+    -0.5f, -0.5f,  0.5f,  
+
+    -0.5f,  0.5f,  0.5f,
+    -0.5f,  0.5f, -0.5f,  
+    -0.5f, -0.5f, -0.5f,  
+    -0.5f, -0.5f, -0.5f, 
+    -0.5f, -0.5f,  0.5f,  
+    -0.5f,  0.5f,  0.5f,  
+
+     0.5f,  0.5f,  0.5f,  
+     0.5f,  0.5f, -0.5f, 
+     0.5f, -0.5f, -0.5f,  
+     0.5f, -0.5f, -0.5f,  
+     0.5f, -0.5f,  0.5f, 
+     0.5f,  0.5f,  0.5f, 
+
+    -0.5f, -0.5f, -0.5f,
+     0.5f, -0.5f, -0.5f, 
+     0.5f, -0.5f,  0.5f,  
+     0.5f, -0.5f,  0.5f, 
+    -0.5f, -0.5f,  0.5f,  
+    -0.5f, -0.5f, -0.5f, 
+
+    -0.5f,  0.5f, -0.5f, 
+     0.5f,  0.5f, -0.5f,  
+     0.5f,  0.5f,  0.5f,  
+     0.5f,  0.5f,  0.5f,  
+    -0.5f,  0.5f,  0.5f,  
+    -0.5f,  0.5f, -0.5f
+};
+
+
+
+
 int main()
 {
 
@@ -84,62 +133,43 @@ int main()
     opengl::state::loadObject("/home/yamin/repos/CPP/OpenGL/src/obj1.obj");
 
 
-    // due to error i will try a pure float array now
-    float* floatArr = new float[opengl::state::size_VERTEX_BUFFER*3];
-    int index = 0;
-    for(int i = 0; i<opengl::state::size_VERTEX_BUFFER; i++)
-    {
-        floatArr[index] = opengl::state::ptr_VERTEX_BUFFER[i].x;
-        ++index;
-        floatArr[index] = opengl::state::ptr_VERTEX_BUFFER[i].y;
-        ++index;
-        floatArr[index] = opengl::state::ptr_VERTEX_BUFFER[i].z;
-        ++index;
-    }
 
 
-
-    // test if the data in the memory looks ok
-    // CHECK FOR VERTEX DATA
-    for(int i = 0; i<opengl::state::size_VERTEX_BUFFER; i++)
-    {
-        std::cout << opengl::state::ptr_VERTEX_BUFFER[i].x << " " << opengl::state::ptr_VERTEX_BUFFER[i].y << " " << opengl::state::ptr_VERTEX_BUFFER[i].z << std::endl;
-    }
-    // CHECK FOR INDECIES
-    int pisser = 0;
-    for(int i = 0; i<opengl::state::size_INDECIES_BUFFER; i++)
-    {
-        if(pisser == 3){ 
-            pisser = 0;
-            std::cout << std::endl;
-        }
-        std::cout << opengl::state::ptr_INDECIES_BUFFER[i] << " ";
-        ++pisser;
-    }
     
 
 
 
-    // error might be here
-    unsigned int VBO, VAO;
+    std::cout << opengl::state::size_VERTEX_BUFFER << std::endl;    // should be 8
+    std::cout << opengl::state::size_INDECIES_BUFFER << std::endl;  // should be 36
+
+    
+
+
+    unsigned int VBO, VAO, EBO;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
     // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float)*opengl::state::size_VERTEX_BUFFER*3, floatArr, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, opengl::state::size_FLOAT_BUFFER* sizeof(float), opengl::state::ptr_FLOAT_BUFFER, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), (void*)0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, opengl::state::size_INDECIES_BUFFER, opengl::state::ptr_INDECIES_BUFFER, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
     // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
     glBindBuffer(GL_ARRAY_BUFFER, 0); 
 
+    // remember: do NOT unbind the EBO while a VAO is active as the bound element buffer object IS stored in the VAO; keep the EBO bound.
+    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
     // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
     // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
     glBindVertexArray(0); 
-
 
 
 
@@ -156,9 +186,6 @@ int main()
     float scr_height = static_cast<float>(SCR_HEIGHT);
     glm::mat4 proj;
     proj = glm::perspective(glm::radians(50.0f), (scr_width / scr_height), 0.1f, 100.0f);
-
-
-    //______________________________________________________________________________________________
 
 
     glm::mat4 model2 = glm::mat4(1.0f);
@@ -232,7 +259,7 @@ int main()
         // render container
         
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        glDrawElements(GL_TRIANGLES, opengl::state::size_INDECIES_BUFFER, GL_UNSIGNED_INT, 0);
 
         // (Your code calls glfwPollEvents())
         // ...
