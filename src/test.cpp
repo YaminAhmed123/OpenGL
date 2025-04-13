@@ -61,8 +61,9 @@ void loadDataFromStreamForIndeciesBuffer(std::ifstream& stream, struct face* fac
 
 int main()
 {
-    std::ifstream file("obj1.obj");
-    std::ifstream file2("obj1.obj");
+    std::ifstream file("obj2.obj");
+    std::ifstream file2("obj2.obj");
+
 
     int zahl = countSubStringAmount(file, "f ");
 
@@ -76,6 +77,19 @@ int main()
     }
 
     delete[] face_ptr;
+
+    std::ifstream file3("obj2.obj");
+    std::ifstream file4("obj2.obj");
+
+    int zahl2 = countSubStringAmount(file3, "v ");
+    struct vertex* vBuffer = new struct vertex[zahl2];
+
+    loadDataFromStreamForVertexBuffer(file4, vBuffer);
+
+    for(int i = 0; i< zahl2; i++)
+    {
+        std::cout << vBuffer[i].x << " " << vBuffer[i].y << " " << vBuffer[i].z << std::endl;
+    }
     
 
     return 0;

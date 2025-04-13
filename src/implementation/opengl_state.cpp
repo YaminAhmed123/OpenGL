@@ -13,3 +13,33 @@ void opengl::state::createShader(Shader* shader, std::string vPath, std::string 
 }
 
 
+void opengl::state::loadObject(std::string path)
+{
+    triangulated_mesh::getVertexBufferAndFaceBufferFromObjectFile(
+        path, 
+        opengl::state::ptr_VERTEX_BUFFER, 
+        opengl::state::ptr_FACE_BUFFER, 
+        opengl::state::size_VERTEX_BUFFER, 
+        opengl::state::size_FACE_BUFFER
+    );
+    opengl::utility::convertFacesToIndecies(
+        opengl::state::size_FACE_BUFFER,
+        opengl::state::ptr_FACE_BUFFER,
+        opengl::state::ptr_INDECIES_BUFFER,
+        opengl::state::size_INDECIES_BUFFER
+    );
+}
+
+void opengl::state::cleanPointers()
+{
+    delete[] opengl::state::ptr_FACE_BUFFER;
+    delete[] opengl::state::ptr_INDECIES_BUFFER;
+    delete[] opengl::state::ptr_VERTEX_BUFFER;
+}
+
+/*
+void opengl::state::setObjectForOpenGL()
+{
+
+}
+*/

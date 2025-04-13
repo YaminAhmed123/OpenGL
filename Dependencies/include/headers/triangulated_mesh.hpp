@@ -7,11 +7,13 @@
 #include <string>
 
 // This file loads basic .obj files and sets them up for opengl (must be triangulated)
+#pragma pack(push, 1)
 struct vertex{
     float x,y,z;
-    float r,g,b,a;
-    float u,v;
+    //float r,g,b,a;
+    //float u,v;
 };
+#pragma pack(pop)
 
 struct face{
     int first, second, third;

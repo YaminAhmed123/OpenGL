@@ -76,108 +76,74 @@ int main()
     // ------------------------------------
     Shader ourShader;
     Shader shader;
-    opengl::state::createShader(&shader, "shader/v.glsl", "shader/f.glsl");
-    opengl::state::createShader(&ourShader, "shader/vertexShader.glsl", "shader/fragmentShader.glsl");
+    opengl::state::createShader(&shader, "shader/v1.glsl", "shader/f1.glsl");
+    opengl::state::createShader(&ourShader, "shader/v1.glsl", "shader/f1.glsl");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
-    // ------------------------------------------------------------------
-    float vertices[] = {
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-        0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    opengl::state::loadObject("/home/yamin/repos/CPP/OpenGL/src/obj1.obj");
 
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
 
-        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    // due to error i will try a pure float array now
+    float* floatArr = new float[opengl::state::size_VERTEX_BUFFER*3];
+    int index = 0;
+    for(int i = 0; i<opengl::state::size_VERTEX_BUFFER; i++)
+    {
+        floatArr[index] = opengl::state::ptr_VERTEX_BUFFER[i].x;
+        ++index;
+        floatArr[index] = opengl::state::ptr_VERTEX_BUFFER[i].y;
+        ++index;
+        floatArr[index] = opengl::state::ptr_VERTEX_BUFFER[i].z;
+        ++index;
+    }
 
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-        0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-        0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
 
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-    };
-    unsigned int indices[] = {
-        0, 1, 3, // first triangle
-        1, 2, 3  // second triangle
-    };
+
+    // test if the data in the memory looks ok
+    // CHECK FOR VERTEX DATA
+    for(int i = 0; i<opengl::state::size_VERTEX_BUFFER; i++)
+    {
+        std::cout << opengl::state::ptr_VERTEX_BUFFER[i].x << " " << opengl::state::ptr_VERTEX_BUFFER[i].y << " " << opengl::state::ptr_VERTEX_BUFFER[i].z << std::endl;
+    }
+    // CHECK FOR INDECIES
+    int pisser = 0;
+    for(int i = 0; i<opengl::state::size_INDECIES_BUFFER; i++)
+    {
+        if(pisser == 3){ 
+            pisser = 0;
+            std::cout << std::endl;
+        }
+        std::cout << opengl::state::ptr_INDECIES_BUFFER[i] << " ";
+        ++pisser;
+    }
+    
+
+
+
+    // error might be here
     unsigned int VBO, VAO;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
-
+    // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float)*opengl::state::size_VERTEX_BUFFER*3, floatArr, GL_STATIC_DRAW);
 
-
-
-    // position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
+    // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
+    glBindBuffer(GL_ARRAY_BUFFER, 0); 
 
-    // color attribute
-    /*
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
-    */
-
-
-    // texture coord attribute
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
+    // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
+    // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
+    glBindVertexArray(0); 
 
 
-    // load and create a texture 
-    // -------------------------
-    unsigned int texture;
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
-    // set the texture wrapping parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    // set texture filtering parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    // load image, create texture and generate mipmaps
-    int width, height, nrChannels;
-    stbi_set_flip_vertically_on_load(true);
 
 
-    
-    
-    //matrix type shit to start making shit look like its 3D damn sleeek hehehe boi
-
-
-    
+    //matrix type shit to start making shit look like its 3D damn sleeek hehehe boi 
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::rotate(model, glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
@@ -214,22 +180,11 @@ int main()
 
 
 
-    // The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
-    unsigned char* data = stbi_load("images/stone.jpg", &width, &height, &nrChannels, 0);
-    if (data)
-    {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else
-    {
-        std::cout << "Failed to load texture" << std::endl;
-    }
-    stbi_image_free(data);
+   
 
     
     
-    // NOT THIS PART OF THE CODES SETS THE UNIFORM MATRECIES IN THE SHADERS TO DO 3D TYPEEE SHIT
+    // NOTE THIS PART OF THE CODES SETS THE UNIFORM MATRECIES IN THE SHADERS TO DO 3D TYPEEE SHIT
     ourShader.use();
     ourShader.setMat4("model", 1, GL_FALSE, glm::value_ptr(model));
     ourShader.setMat4("view", 1, GL_FALSE, glm::value_ptr(view));
@@ -272,37 +227,7 @@ int main()
         // ------
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-
-
-        // select which shader to use
-        if (GUI.SHADER_STATE) {
-            shader.use();
-            float time = static_cast<float>(glfwGetTime());
-            float valX = glm::sin(time);
-            float valY = glm::cos(time);
-            float valZ = -glm::sin(time);
-            shader.setVector3("lol", valX, valY, valZ);
-            shader.setMat4("model", 1, GL_FALSE, glm::value_ptr(model2));
-            shader.setMat4("view", 1, GL_FALSE, glm::value_ptr(view2));
-            shader.setMat4("proj", 1, GL_FALSE, glm::value_ptr(proj2));
-        }
-        else {
-            ourShader.use();
-            float time = static_cast<float>(glfwGetTime());
-            float valX = glm::sin(time);
-            float valY = glm::cos(time);
-            float valZ = -glm::sin(time);
-            ourShader.setVector3("lol", valX, valY, valZ);
-            ourShader.use();
-            ourShader.setMat4("model", 1, GL_FALSE, glm::value_ptr(model));
-            ourShader.setMat4("view", 1, GL_FALSE, glm::value_ptr(view));
-            ourShader.setMat4("proj", 1, GL_FALSE, glm::value_ptr(proj));
-        }
-
         
-
-        // bind Texture
-        glBindTexture(GL_TEXTURE_2D, texture);
 
         // render container
         
@@ -328,6 +253,7 @@ int main()
 
     }
 
+    opengl::state::cleanPointers();
     gui::cleanUp();
 
     // optional: de-allocate all resources once they've outlived their purpose:
