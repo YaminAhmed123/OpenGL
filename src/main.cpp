@@ -27,51 +27,39 @@ struct gui_state GUI;
 
 
 
-
+// Vertex positions (x, y, z)
 float vertices[] = {
-    -0.5f, -0.5f, -0.5f,  
-     0.5f, -0.5f, -0.5f,  
-     0.5f,  0.5f, -0.5f,  
-     0.5f,  0.5f, -0.5f,  
-    -0.5f,  0.5f, -0.5f,  
-    -0.5f, -0.5f, -0.5f,  
-
-    -0.5f, -0.5f,  0.5f, 
-     0.5f, -0.5f,  0.5f,  
-     0.5f,  0.5f,  0.5f,  
-     0.5f,  0.5f,  0.5f,  
-    -0.5f,  0.5f,  0.5f,  
-    -0.5f, -0.5f,  0.5f,  
-
-    -0.5f,  0.5f,  0.5f,
-    -0.5f,  0.5f, -0.5f,  
-    -0.5f, -0.5f, -0.5f,  
-    -0.5f, -0.5f, -0.5f, 
-    -0.5f, -0.5f,  0.5f,  
-    -0.5f,  0.5f,  0.5f,  
-
-     0.5f,  0.5f,  0.5f,  
-     0.5f,  0.5f, -0.5f, 
-     0.5f, -0.5f, -0.5f,  
-     0.5f, -0.5f, -0.5f,  
-     0.5f, -0.5f,  0.5f, 
-     0.5f,  0.5f,  0.5f, 
-
-    -0.5f, -0.5f, -0.5f,
-     0.5f, -0.5f, -0.5f, 
-     0.5f, -0.5f,  0.5f,  
-     0.5f, -0.5f,  0.5f, 
-    -0.5f, -0.5f,  0.5f,  
-    -0.5f, -0.5f, -0.5f, 
-
-    -0.5f,  0.5f, -0.5f, 
-     0.5f,  0.5f, -0.5f,  
-     0.5f,  0.5f,  0.5f,  
-     0.5f,  0.5f,  0.5f,  
-    -0.5f,  0.5f,  0.5f,  
-    -0.5f,  0.5f, -0.5f
+    -0.5f, -0.5f, -0.5f,  // 0
+     0.5f, -0.5f, -0.5f,  // 1
+     0.5f,  0.5f, -0.5f,  // 2
+    -0.5f,  0.5f, -0.5f,  // 3
+    -0.5f, -0.5f,  0.5f,  // 4
+     0.5f, -0.5f,  0.5f,  // 5
+     0.5f,  0.5f,  0.5f,  // 6
+    -0.5f,  0.5f,  0.5f   // 7
 };
 
+// Indices (12 triangles)
+unsigned int indices[] = {
+    // Back face
+    0, 1, 2,
+    2, 3, 0,
+    // Front face
+    4, 5, 6,
+    6, 7, 4,
+    // Left face
+    4, 0, 3,
+    3, 7, 4,
+    // Right face
+    1, 5, 6,
+    6, 2, 1,
+    // Bottom face
+    4, 5, 1,
+    1, 0, 4,
+    // Top face
+    3, 2, 6,
+    6, 7, 3
+};
 
 
 
@@ -126,7 +114,7 @@ int main()
     Shader ourShader;
     Shader shader;
     opengl::state::createShader(&shader, "shader/v1.glsl", "shader/f1.glsl");
-    opengl::state::createShader(&ourShader, "shader/v1.glsl", "shader/f1.glsl");
+    opengl::state::createShader(&ourShader, "shader/v2.glsl", "shader/f2.glsl");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
 
@@ -142,10 +130,6 @@ int main()
     std::cout << opengl::state::size_VERTEX_BUFFER << std::endl;    // should be 8
     std::cout << opengl::state::size_INDECIES_BUFFER << std::endl;  // should be 36
 
-    for(int i = 0; i<opengl::state::size_INDECIES_BUFFER; i++)
-    {
-        std::cout << opengl::state::ptr_INDECIES_BUFFER[i] << "\n";
-    }
 
 
     unsigned int VBO, VAO, EBO;
@@ -156,10 +140,10 @@ int main()
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, opengl::state::size_FLOAT_BUFFER* sizeof(float), opengl::state::ptr_FLOAT_BUFFER, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, opengl::state::size_FLOAT_BUFFER * sizeof(float), opengl::state::ptr_FLOAT_BUFFER, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, opengl::state::size_INDECIES_BUFFER, opengl::state::ptr_INDECIES_BUFFER, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, opengl::state::size_INDECIES_BUFFER * sizeof(int), opengl::state::ptr_INDECIES_BUFFER, GL_STATIC_DRAW);
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
