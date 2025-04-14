@@ -125,17 +125,18 @@ int main()
 
 
 
-    unsigned int VBO, VAO, EBO;
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
-    // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-    glBindVertexArray(VAO);
+    
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glGenVertexArrays(1, &opengl::state::VAO);
+    glGenBuffers(1, &opengl::state::VBO);
+    glGenBuffers(1, &opengl::state::EBO);
+    // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
+    glBindVertexArray(opengl::state::VAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, opengl::state::VBO);
     glBufferData(GL_ARRAY_BUFFER, opengl::state::size_FLOAT_BUFFER * sizeof(float), &opengl::state::ptr_FLOAT_BUFFER[0], GL_STATIC_DRAW);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, opengl::state::EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, opengl::state::size_INDECIES_BUFFER * sizeof(int), &opengl::state::ptr_INDECIES_BUFFER[0], GL_STATIC_DRAW);
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
@@ -225,7 +226,7 @@ int main()
 
         // render container
         
-        glBindVertexArray(VAO);
+        glBindVertexArray(opengl::state::VAO);
         glDrawElements(GL_TRIANGLES, opengl::state::size_INDECIES_BUFFER, GL_UNSIGNED_INT, 0);
 
         // (Your code calls glfwPollEvents())
@@ -252,9 +253,9 @@ int main()
 
     // optional: de-allocate all resources once they've outlived their purpose:
     // ------------------------------------------------------------------------
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
-    glDeleteBuffers(1, &EBO);
+    glDeleteVertexArrays(1, &opengl::state::VAO);
+    glDeleteBuffers(1, &opengl::state::VBO);
+    glDeleteBuffers(1, &opengl::state::EBO);
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------

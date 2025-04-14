@@ -24,6 +24,11 @@ namespace opengl {
     // a set of function to use opengl as a state machine
     namespace state
     {
+        // This set of ints should be used for the OpenGL buffer
+        inline unsigned int VAO;
+        inline unsigned int VBO;
+        inline unsigned int EBO;
+
         inline int size_VERTEX_BUFFER = 0;
         inline int size_FACE_BUFFER = 0;
         inline int size_INDECIES_BUFFER = 0;
