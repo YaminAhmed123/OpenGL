@@ -32,4 +32,10 @@ void opengl::utility::convertVerteciesToFloats(int vBufferS, struct vertex* vBuf
         ++indexForPtr;
     }
     floatSize = vBufferS*3;
+
+    // Fix indexing since OpenGL uses 0 based indexing
+    for(int i = 0; i<opengl::state::size_INDECIES_BUFFER; i++)
+    {
+        opengl::state::ptr_INDECIES_BUFFER[i] = opengl::state::ptr_INDECIES_BUFFER[i]-1; 
+    }
 }
