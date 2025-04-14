@@ -116,7 +116,7 @@ int main()
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
 
-    opengl::state::loadObject("/home/yamin/repos/CPP/OpenGL/src/obj2.obj");
+    opengl::state::loadObject("object/object.obj");
 
 
 
