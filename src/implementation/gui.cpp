@@ -1,5 +1,9 @@
 #include <headers/gui.hpp>
+#include <headers/opengl.hpp>
 
+
+// local vars const buffers
+static char buffer[512];
 
 // These function here are used to help with GUI logic
 static void HANDLE_FOR_WIRE_FRAME(struct gui_state* GUI)
@@ -15,15 +19,11 @@ static void HANDLE_FOR_WIRE_FRAME(struct gui_state* GUI)
     }
 }
 
-static void HANDLE_FOR_SHADER(struct gui_state* GUI)
+static void HANDLE_FOR_MESHLOADING(struct gui_state* GUI)
 {
-    if(GUI->SHADER_STATE)
-    {
-        GUI->SHADER_STATE = false;
-    }
-    else{
-        GUI->SHADER_STATE = true;
-    }
+    opengl::state::cleanPointers();     // NOTE THAT THE APPLICATION MUST LOAD A DEFAULT OBJECT AT BEGINNING
+    std::string path(buffer);
+    opengl::state::loadObject(path);
 }
 
 
@@ -61,10 +61,11 @@ void gui::setUICode(struct gui_state* GUI, GLFWwindow* win)
     {
         HANDLE_FOR_WIRE_FRAME(GUI);
     }
-    if(ImGui::Button("toggle shader"))
+    if(ImGui::Button("load mesh object"))
     {
-        HANDLE_FOR_SHADER(GUI);
+        HANDLE_FOR_MESHLOADING(GUI);
     }
+    ImGui::InputText("Enter filepath", buffer, sizeof(buffer));
     if(ImGui::Button("close application"))
     {
         glfwSetWindowShouldClose(win, true);

@@ -111,14 +111,12 @@ int main()
 
     // build and compile our shader zprogram
     // ------------------------------------
-    Shader ourShader;
     Shader shader;
     opengl::state::createShader(&shader, "shader/v2.glsl", "shader/f2.glsl");
-    opengl::state::createShader(&ourShader, "shader/v2.glsl", "shader/f2.glsl");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
 
-    opengl::state::loadObject("/home/yamin/repos/CPP/OpenGL/src/objectb2.obj");
+    opengl::state::loadObject("/home/yamin/repos/CPP/OpenGL/src/obj2.obj");
 
 
 
@@ -156,20 +154,6 @@ int main()
 
 
     //matrix type shit to start making shit look like its 3D damn sleeek hehehe boi 
-    glm::mat4 model = glm::mat4(1.0f);
-    model = glm::rotate(model, glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-
-    glm::mat4 view = glm::mat4(1.0f);
-    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-
-
-    // the perpective
-    float scr_width = static_cast<float>(SCR_WIDTH);
-    float scr_height = static_cast<float>(SCR_HEIGHT);
-    glm::mat4 proj;
-    proj = glm::perspective(glm::radians(50.0f), (scr_width / scr_height), 0.1f, 100.0f);
-
-
     glm::mat4 model2 = glm::mat4(1.0f);
     model2 = glm::rotate(model2, glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
@@ -178,6 +162,9 @@ int main()
 
 
     // the perpective
+    float scr_width, scr_height;
+    scr_width = SCR_WIDTH;
+    scr_height = SCR_HEIGHT;
     glm::mat4 proj2;
     proj2 = glm::perspective(glm::radians(50.0f), (scr_width / scr_height), 0.1f, 100.0f);
 
@@ -194,10 +181,6 @@ int main()
     
     
     // NOTE THIS PART OF THE CODES SETS THE UNIFORM MATRECIES IN THE SHADERS TO DO 3D TYPEEE SHIT
-    ourShader.use();
-    ourShader.setMat4("model", 1, GL_FALSE, glm::value_ptr(model));
-    ourShader.setMat4("view", 1, GL_FALSE, glm::value_ptr(view));
-    ourShader.setMat4("proj", 1, GL_FALSE, glm::value_ptr(proj));
 
     shader.use();
     shader.setMat4("model", 1, GL_FALSE, glm::value_ptr(model2));
@@ -205,8 +188,6 @@ int main()
     shader.setMat4("proj", 1, GL_FALSE, glm::value_ptr(proj2));
 
     // rotate the ass cube lol
-    
-    model = glm::rotate(model, 1 * glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
     model2 = glm::rotate(model2, 1 * glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 
     float timeFirst, timeLast, deltaTime;
@@ -215,6 +196,7 @@ int main()
     
     // render loop
     // -----------
+    shader.use();
     while (!glfwWindowShouldClose(window))
     {
 
@@ -225,8 +207,11 @@ int main()
         timeLast = glfwGetTime();
         deltaTime = timeLast - timeFirst;
 
-        model = glm::rotate(model, glm::radians(50.0f) * deltaTime, glm::vec3(0.0f, 1.0f, 0.0f));
+        
         model2 = glm::rotate(model2, glm::radians(50.0f) * deltaTime, glm::vec3(0.0f, 1.0f, 0.0f));
+        shader.setMat4("model", 1, GL_FALSE, glm::value_ptr(model2));
+        shader.setMat4("view", 1, GL_FALSE, glm::value_ptr(view2));
+        shader.setMat4("proj", 1, GL_FALSE, glm::value_ptr(proj2));
 
         // input
         // -----
@@ -269,6 +254,7 @@ int main()
     // ------------------------------------------------------------------------
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &EBO);
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
