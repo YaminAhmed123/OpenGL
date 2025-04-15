@@ -1,5 +1,6 @@
 #include <headers/gui.hpp>
 #include <headers/opengl.hpp>
+#include <headers/ui/portable-file-dialogs.h>
 
 
 // local vars const buffers
@@ -19,10 +20,9 @@ static void HANDLE_FOR_WIRE_FRAME(struct gui_state* GUI)
     }
 }
 
-static void HANDLE_FOR_MESHLOADING(struct gui_state* GUI)
+static void HANDLE_FOR_MESHLOADING(std::string path)
 {
     opengl::state::cleanPointers();     // NOTE THAT THE APPLICATION MUST LOAD A DEFAULT OBJECT AT BEGINNING
-    std::string path(buffer);
     opengl::state::loadObject(path);
 
     // set up Opengl State
@@ -95,9 +95,20 @@ void gui::setUICode(struct gui_state* GUI, GLFWwindow* win)
     }
     if(ImGui::Button("load mesh object"))
     {
-        HANDLE_FOR_MESHLOADING(GUI);
+        pfd::open_file fileDialog(
+            "Choose an object file",         // Dialog title
+            ".",                   // Default path (current directory)
+            { "All Files", "*.obj" }   // Filter
+        );
+    
+        std::vector<std::string> result = fileDialog.result();
+    
+        if (!result.empty())
+        {
+            std::string selectedPath = result[0];
+            HANDLE_FOR_MESHLOADING(selectedPath);
+        }
     }
-    ImGui::InputText("Enter filepath", buffer, sizeof(buffer));
     if(ImGui::Button("close application"))
     {
         glfwSetWindowShouldClose(win, true);
