@@ -12,16 +12,8 @@ namespace cam
 	*	with this claimer its up to you to make it better
 	*/
 
-	class Camera
-	{
-	public:
-		Camera(glm::vec3 camera_postion, glm::vec3 camera_direction);
-		~Camera();
 
-	private:
-		glm::vec3 camera_position;
-		glm::vec3 camera_view_direction;
-	};
+	
 
 }
 #endif

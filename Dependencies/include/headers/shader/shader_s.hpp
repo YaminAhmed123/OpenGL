@@ -38,7 +38,7 @@ public:
 	void setVector3(std::string name, float x, float y, float z) const;
 	void setVector2(std::string name, float x, float y) const;
 	void setMat4(std::string name,unsigned int count, GLboolean state, GLfloat *value_ptr) const;
-
+	
 };
 
 #endif

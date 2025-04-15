@@ -83,13 +83,11 @@ int main()
     opengl::state::setBuffersForSingleModellRendering();
 
 
-
     //matrix type shit to start making shit look like its 3D damn sleeek hehehe boi 
     glm::mat4 model2 = glm::mat4(1.0f);
-    model2 = glm::rotate(model2, glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
     glm::mat4 view2 = glm::mat4(1.0f);
-    view2 = glm::translate(view2, glm::vec3(0.0f, 0.0f, -3.0f));
+    view2 = glm::translate(view2, glm::vec3(0.0f, 0.0f, -4.0f));
 
 
     // the perpective
@@ -97,17 +95,7 @@ int main()
     scr_width = SCR_WIDTH;
     scr_height = SCR_HEIGHT;
     glm::mat4 proj2;
-    proj2 = glm::perspective(glm::radians(50.0f), (scr_width / scr_height), 0.1f, 100.0f);
-
-
-
-
-
-
-
-
-
-   
+    proj2 = glm::perspective(glm::radians(40.0f), (scr_width / scr_height), 0.1f, 100.0f);
 
     
     
@@ -127,6 +115,8 @@ int main()
     
     // render loop
     // -----------
+    int view = 1;
+    std::cout << view2[3][2] << std::endl;
     shader.use();
     while (!glfwWindowShouldClose(window))
     {
@@ -139,7 +129,24 @@ int main()
         deltaTime = timeLast - timeFirst;
 
         
-        model2 = glm::rotate(model2, glm::radians(50.0f) * deltaTime, glm::vec3(0.0f, 1.0f, 0.0f));
+        model2 = glm::rotate(model2, glm::radians(60.0f) * 2 * deltaTime, glm::vec3(0.0f, 1.0f, 0.0f));
+        
+        if(view == 1)
+        {
+            view2 = glm::translate(view2, glm::vec3(0.0f, 0.0f,deltaTime * -1.0f * 4.5f));
+            if(view2[3][2] <= -15.0f)
+            {
+                view = -1;
+            }
+        }
+        if(view == -1){
+            view2 = glm::translate(view2, glm::vec3(0.0f, 0.0f,deltaTime * 1.0f * 4.5f));
+            if(view2[3][2] >= -3.5f)
+            {
+                view = 1;
+            }
+        }
+
         shader.setMat4("model", 1, GL_FALSE, glm::value_ptr(model2));
         shader.setMat4("view", 1, GL_FALSE, glm::value_ptr(view2));
         shader.setMat4("proj", 1, GL_FALSE, glm::value_ptr(proj2));
