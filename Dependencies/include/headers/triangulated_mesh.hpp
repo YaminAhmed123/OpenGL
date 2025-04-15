@@ -13,11 +13,13 @@ struct vertex{
     //float r,g,b,a;
     //float u,v;
 };
-#pragma pack(pop)
+
 
 struct face{
     int first, second, third;
 };
+#pragma pack(pop)
+
 
 namespace triangulated_mesh{
     void getVertexBufferAndFaceBufferFromObjectFile(std::string path, struct vertex*& vertexBuffer, struct face*& indecies, int& v_SIZE, int& f_SIZE);
