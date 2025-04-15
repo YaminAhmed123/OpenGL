@@ -1,7 +1,6 @@
 #version 330 core
 out vec4 FragColor;
 
-in vec2 TexCoord;
 
 uniform sampler2D ourTexture;
 
@@ -9,8 +8,7 @@ uniform vec3 lol;
 
 void main()
 {
-    vec4 temp = texture(ourTexture, TexCoord);
-    vec3 ranged = vec3(lol.x*lol.x, lol.y*lol.y, lol.z*lol.z);
-    temp = vec4(temp.x-ranged.x, temp.y-ranged.y, temp.z-ranged.z, temp.w);
+    vec4 temp = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+    temp = vec4(temp.x+lol.x, temp.y+lol.y, temp.z+lol.z, temp.w);
     FragColor = temp;
 }
