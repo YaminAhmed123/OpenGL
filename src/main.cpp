@@ -26,43 +26,6 @@ static bool stateOfShader = false;
 struct gui_state GUI;
 
 
-
-// Vertex positions (x, y, z)
-float vertices[] = {
-    -0.5f, -0.5f, -0.5f,  // 0
-     0.5f, -0.5f, -0.5f,  // 1
-     0.5f,  0.5f, -0.5f,  // 2
-    -0.5f,  0.5f, -0.5f,  // 3
-    -0.5f, -0.5f,  0.5f,  // 4
-     0.5f, -0.5f,  0.5f,  // 5
-     0.5f,  0.5f,  0.5f,  // 6
-    -0.5f,  0.5f,  0.5f   // 7
-};
-
-// Indices (12 triangles)
-unsigned int indices[] = {
-    // Back face
-    0, 1, 2,
-    2, 3, 0,
-    // Front face
-    4, 5, 6,
-    6, 7, 4,
-    // Left face
-    4, 0, 3,
-    3, 7, 4,
-    // Right face
-    1, 5, 6,
-    6, 2, 1,
-    // Bottom face
-    4, 5, 1,
-    1, 0, 4,
-    // Top face
-    3, 2, 6,
-    6, 7, 3
-};
-
-
-
 int main()
 {
 
@@ -117,40 +80,7 @@ int main()
     // set up vertex data (and buffer(s)) and configure vertex attributes
 
     opengl::state::loadObject("object/object.obj");
-
-
-
-    
-
-
-
-
-    
-
-    glGenVertexArrays(1, &opengl::state::VAO);
-    glGenBuffers(1, &opengl::state::VBO);
-    glGenBuffers(1, &opengl::state::EBO);
-    // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-    glBindVertexArray(opengl::state::VAO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, opengl::state::VBO);
-    glBufferData(GL_ARRAY_BUFFER, opengl::state::size_FLOAT_BUFFER * sizeof(float), &opengl::state::ptr_FLOAT_BUFFER[0], GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, opengl::state::EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, opengl::state::size_INDECIES_BUFFER * sizeof(int), &opengl::state::ptr_INDECIES_BUFFER[0], GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
-    // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-    glBindBuffer(GL_ARRAY_BUFFER, 0); 
-
-    // remember: do NOT unbind the EBO while a VAO is active as the bound element buffer object IS stored in the VAO; keep the EBO bound.
-    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-    // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
-    // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-    glBindVertexArray(0); 
+    opengl::state::setBuffersForSingleModellRendering();
 
 
 

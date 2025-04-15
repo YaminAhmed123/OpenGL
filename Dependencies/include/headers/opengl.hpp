@@ -41,10 +41,9 @@ namespace opengl {
         void createShader(Shader* shader, std::string vPath, std::string fPath); // creates a shader and writes it to the specified adress (maybe that function is useless)
         void loadObject(std::string path);
         // void setObjectForOpenGL();
-        void cleanPointers();                   // Can only be called after loadObject was called
-
+        void cleanPointers();                                   // CAN ONLY BE CALLED AFTER loadObject() WAS CALLED 
+        void setBuffersForSingleModellRendering();              // THIS FUNCTION CHECKS IF THE POINTERS ARE INIT IF SO IT WILL SET UP BUFFERS TO RENDER A SINGLE MESH
     }
 }
-
 
 #endif
