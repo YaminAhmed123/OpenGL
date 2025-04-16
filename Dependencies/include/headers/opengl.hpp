@@ -50,7 +50,7 @@ namespace opengl {
         // this is opengls camera
         inline Camera camera = Camera();
 
-        void setOpenglCamera(Camera cam);
+        void setOpenglCamera(Camera& cam);
     }
 }
 

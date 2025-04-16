@@ -1,6 +1,6 @@
 #include <headers/opengl.hpp>
 
-void opengl::camera::setOpenglCamera(Camera cam)
+void opengl::camera::setOpenglCamera(Camera& cam)
 {
     opengl::camera::camera = cam;
 }
