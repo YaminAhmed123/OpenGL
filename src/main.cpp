@@ -15,10 +15,11 @@
 
 //include imgui stuff
 #include <headers/gui.hpp>
+#include <headers/time.hpp>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
-
+ 
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
@@ -26,12 +27,13 @@ static bool stateOfShader = false;
 // global GUI state
 struct gui_state GUI;
 
+float THE_DELTA_TIME = 0.5f; // needs to be init
+
+
+void yes(){ std::cout << "shit got called\n";}
 
 int main()
 {
-
-    Camera camera = Camera();
-
 
 
     // glfw: initialize and configure
@@ -109,16 +111,15 @@ int main()
     shader.setMat4("proj", 1, GL_FALSE, glm::value_ptr(proj2));
 
     // rotate the ass cube lol
-    model2 = glm::rotate(model2, 1 * glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    model2 = glm::rotate(model2, 1 * glm::radians(40.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 
-    float timeFirst, timeLast, deltaTime;
-    timeFirst = glfwGetTime();
-
-    glm::mat4 viewX = camera.getViewMatrix();
-
+    
+    deltatime::first = glfwGetTime();
     
     // render loop
     // -----------
+
+
 
     shader.use();
     while (!glfwWindowShouldClose(window))
@@ -128,12 +129,15 @@ int main()
         glEnable(GL_DEPTH_TEST);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        timeLast = glfwGetTime();
-        deltaTime = timeLast - timeFirst;
+        deltatime::last = glfwGetTime();
+        deltatime::delta_time = deltatime::last - deltatime::first;
 
         shader.setMat4("model", 1, GL_FALSE, glm::value_ptr(model2));
-        shader.setMat4("view", 1, GL_FALSE, glm::value_ptr(viewX));
+        shader.setMat4("view", 1, GL_FALSE, glm::value_ptr(opengl::camera::view));
         shader.setMat4("proj", 1, GL_FALSE, glm::value_ptr(proj2));
+
+
+        model2 = glm::rotate(model2, deltatime::delta_time * glm::radians(20.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 
         // input
         // -----
@@ -165,8 +169,7 @@ int main()
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
         glfwPollEvents();
-        timeFirst = timeLast;
-
+        deltatime::first = deltatime::last;
     }
 
     opengl::state::cleanPointers();
@@ -191,20 +194,32 @@ void processInput(GLFWwindow* window)
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
-    if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
-        stateOfShader = true;
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+        glm::vec3 temp = opengl::camera::camera.getCamera_Pos();
+        temp = glm::vec3(temp.x, temp.y, temp.z + -5.0f * deltatime::delta_time);
+        opengl::camera::camera.setCameraPosition(temp);
+        opengl::camera::reCalculateMat4View();
     }
 
-    if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
-        stateOfShader = false;
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+        glm::vec3 temp = opengl::camera::camera.getCamera_Pos();
+        temp = glm::vec3(temp.x + -5.0f * deltatime::delta_time, temp.y, temp.z);
+        opengl::camera::camera.setCameraPosition(temp);
+        opengl::camera::reCalculateMat4View();
     }
 
-    if (glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS) {
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+        glm::vec3 temp = opengl::camera::camera.getCamera_Pos();
+        temp = glm::vec3(temp.x, temp.y, temp.z + 5.0f * deltatime::delta_time);
+        opengl::camera::camera.setCameraPosition(temp);
+        opengl::camera::reCalculateMat4View();
     }
 
-    if (glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS) {
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+        glm::vec3 temp = opengl::camera::camera.getCamera_Pos();
+        temp = glm::vec3(temp.x + 5.0f * deltatime::delta_time, temp.y, temp.z);
+        opengl::camera::camera.setCameraPosition(temp);
+        opengl::camera::reCalculateMat4View();
     }
 }
 

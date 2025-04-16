@@ -7,6 +7,7 @@
 #include <headers/triangulated_mesh.hpp>
 #include <string>
 #include <headers/camera/camera_s.hpp>
+#include <glm/glm.hpp>
 
 /*
 This header defines OpenGL as a state machine so in here
@@ -49,8 +50,10 @@ namespace opengl {
     namespace camera{
         // this is opengls camera
         inline Camera camera = Camera();
+        inline glm::mat4 view = camera.getViewMatrix();
 
         void setOpenglCamera(Camera& cam);
+        void reCalculateMat4View();
     }
 }
 
