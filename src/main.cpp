@@ -11,6 +11,7 @@
 #include <headers/shader/shader_s.hpp>
 #include <headers/opengl.hpp>
 #include <iostream>
+#include <headers/camera/camera_s.hpp>
 
 //include imgui stuff
 #include <headers/gui.hpp>
@@ -29,6 +30,7 @@ struct gui_state GUI;
 int main()
 {
 
+    Camera camera = Camera(glm::vec3(1.0f, 1.0f, 1.0f));
 
 
 
