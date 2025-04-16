@@ -30,7 +30,7 @@ struct gui_state GUI;
 int main()
 {
 
-    Camera camera = Camera(glm::vec3(1.0f, 1.0f, 1.0f));
+    Camera camera = Camera();
 
 
 
@@ -114,11 +114,12 @@ int main()
     float timeFirst, timeLast, deltaTime;
     timeFirst = glfwGetTime();
 
+    glm::mat4 viewX = camera.getViewMatrix();
+
     
     // render loop
     // -----------
-    int view = 1;
-    std::cout << view2[3][2] << std::endl;
+
     shader.use();
     while (!glfwWindowShouldClose(window))
     {
@@ -130,27 +131,8 @@ int main()
         timeLast = glfwGetTime();
         deltaTime = timeLast - timeFirst;
 
-        
-        model2 = glm::rotate(model2, glm::radians(60.0f) * 2 * deltaTime, glm::vec3(0.0f, 1.0f, 0.0f));
-        
-        if(view == 1)
-        {
-            view2 = glm::translate(view2, glm::vec3(0.0f, 0.0f,deltaTime * -1.0f * 4.5f));
-            if(view2[3][2] <= -15.0f)
-            {
-                view = -1;
-            }
-        }
-        if(view == -1){
-            view2 = glm::translate(view2, glm::vec3(0.0f, 0.0f,deltaTime * 1.0f * 4.5f));
-            if(view2[3][2] >= -3.5f)
-            {
-                view = 1;
-            }
-        }
-
         shader.setMat4("model", 1, GL_FALSE, glm::value_ptr(model2));
-        shader.setMat4("view", 1, GL_FALSE, glm::value_ptr(view2));
+        shader.setMat4("view", 1, GL_FALSE, glm::value_ptr(viewX));
         shader.setMat4("proj", 1, GL_FALSE, glm::value_ptr(proj2));
 
         // input
