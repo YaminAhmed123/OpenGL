@@ -66,12 +66,6 @@ int main()
     gui::setGUIforStart(&GUI);
     gui::setUpGUI(window);
 
-    
-    
-
-
-
-
     // build and compile our shader zprogram
     // ------------------------------------
     Shader shader;
@@ -98,18 +92,6 @@ int main()
     scr_height = SCR_HEIGHT;
     glm::mat4 proj2;
     proj2 = glm::perspective(glm::radians(50.0f), (scr_width / scr_height), 0.1f, 100.0f);
-
-
-
-
-
-
-
-
-
-   
-
-    
     
     // NOTE THIS PART OF THE CODES SETS THE UNIFORM MATRECIES IN THE SHADERS TO DO 3D TYPEEE SHIT
 
