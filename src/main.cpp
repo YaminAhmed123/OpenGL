@@ -133,7 +133,7 @@ int main()
         deltatime::delta_time = deltatime::last - deltatime::first;
 
         shader.setMat4("model", 1, GL_FALSE, glm::value_ptr(model2));
-        shader.setMat4("view", 1, GL_FALSE, glm::value_ptr(opengl::camera::view));
+        shader.setMat4("view", 1, GL_FALSE, glm::value_ptr(opengl::camera::camera.view));
         shader.setMat4("proj", 1, GL_FALSE, glm::value_ptr(proj2));
 
 
@@ -187,39 +187,41 @@ int main()
     return 0;
 }
 
+
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
 // ---------------------------------------------------------------------------------------------------------
 void processInput(GLFWwindow* window)
 {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS){ glfwSetWindowShouldClose(window, true); }
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-        glm::vec3 temp = opengl::camera::camera.getCamera_Pos();
-        temp = glm::vec3(temp.x, temp.y, temp.z + -5.0f * deltatime::delta_time);
-        opengl::camera::camera.setCameraPosition(temp);
-        opengl::camera::reCalculateMat4View();
+        opengl::camera::camera.camera_position.z += -5.0f * deltatime::delta_time; 
+        opengl::camera::camera.reCalculateViewMat4();
     }
 
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-        glm::vec3 temp = opengl::camera::camera.getCamera_Pos();
-        temp = glm::vec3(temp.x + -5.0f * deltatime::delta_time, temp.y, temp.z);
-        opengl::camera::camera.setCameraPosition(temp);
-        opengl::camera::reCalculateMat4View();
+        opengl::camera::camera.camera_position.x += -5.0f * deltatime::delta_time;
+        opengl::camera::camera.reCalculateViewMat4();
     }
 
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-        glm::vec3 temp = opengl::camera::camera.getCamera_Pos();
-        temp = glm::vec3(temp.x, temp.y, temp.z + 5.0f * deltatime::delta_time);
-        opengl::camera::camera.setCameraPosition(temp);
-        opengl::camera::reCalculateMat4View();
+        opengl::camera::camera.camera_position.z += 5.0f * deltatime::delta_time;
+        opengl::camera::camera.reCalculateViewMat4();
     }
 
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-        glm::vec3 temp = opengl::camera::camera.getCamera_Pos();
-        temp = glm::vec3(temp.x + 5.0f * deltatime::delta_time, temp.y, temp.z);
-        opengl::camera::camera.setCameraPosition(temp);
-        opengl::camera::reCalculateMat4View();
+        opengl::camera::camera.camera_position.x += 5.0f * deltatime::delta_time;
+        opengl::camera::camera.reCalculateViewMat4();
+    }
+    if (glfwGetKey(window, GLFW_KEY_SPACE))
+    {
+        opengl::camera::camera.camera_position.y += 5.0f* deltatime::delta_time;
+        opengl::camera::camera.reCalculateViewMat4();
+    }
+    if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT))
+    {
+        opengl::camera::camera.camera_position.y += -5.0f* deltatime::delta_time;
+        opengl::camera::camera.reCalculateViewMat4();
     }
 }
 

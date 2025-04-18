@@ -50,10 +50,8 @@ namespace opengl {
     namespace camera{
         // this is opengls camera
         inline Camera camera = Camera();
-        inline glm::mat4 view = camera.getViewMatrix();
 
         void setOpenglCamera(Camera& cam);
-        void reCalculateMat4View();
     }
 }
 

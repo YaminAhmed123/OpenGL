@@ -48,5 +48,5 @@ void Camera::setCameraUP(glm::vec3 up)
 
 void Camera::reCalculateViewMat4()
 {
-	view = glm::lookAt(this->camera_position, this->camera_front + this->camera_position, this->camera_up);
+	this->view = glm::lookAt(this->camera_position, this->camera_front + this->camera_position, this->camera_up);
 }
