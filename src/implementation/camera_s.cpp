@@ -50,3 +50,4 @@ void Camera::reCalculateViewMat4()
 {
 	this->view = glm::lookAt(this->camera_position, this->camera_front + this->camera_position, this->camera_up);
 }
+

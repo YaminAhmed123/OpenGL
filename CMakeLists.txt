@@ -16,6 +16,7 @@ set(SOURCES
     src/glad.c
     src/implementation/shader_s.cpp
     src/implementation/camera_s.cpp
+    src/implementation/glfwIO.cpp
     src/implementation/gui.cpp
     src/implementation/opengl_camera.cpp
     src/implementation/opengl_state.cpp

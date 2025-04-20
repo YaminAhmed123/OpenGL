@@ -16,9 +16,8 @@
 //include imgui stuff
 #include <headers/gui.hpp>
 #include <headers/time.hpp>
+#include <headers/glfwIO.hpp>
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void processInput(GLFWwindow* window);
  
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -27,23 +26,16 @@ static bool stateOfShader = false;
 // global GUI state
 struct gui_state GUI;
 
-float THE_DELTA_TIME = 0.5f; // needs to be init
-
-
 void yes(){ std::cout << "shit got called\n";}
 
 int main()
 {
-
-
     // glfw: initialize and configure
     // ------------------------------
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-
 
     // glfw window creation
     // --------------------
@@ -55,7 +47,7 @@ int main()
         return -1;
     }
     glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSetFramebufferSizeCallback(window, IO::framebuffer_size_callback);
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
@@ -65,16 +57,9 @@ int main()
         return -1;
     }
 
-    
     // Setup GUI
     gui::setGUIforStart(&GUI);
     gui::setUpGUI(window);
-
-    
-    
-
-
-
 
     // build and compile our shader zprogram
     // ------------------------------------
@@ -115,12 +100,6 @@ int main()
 
     
     deltatime::first = glfwGetTime();
-    
-    // render loop
-    // -----------
-
-
-
     shader.use();
     while (!glfwWindowShouldClose(window))
     {
@@ -141,7 +120,7 @@ int main()
 
         // input
         // -----
-        processInput(window);
+        IO::processInput(window);
 
         // render
         // ------
@@ -185,51 +164,4 @@ int main()
     // ------------------------------------------------------------------
     glfwTerminate();
     return 0;
-}
-
-
-// process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
-// ---------------------------------------------------------------------------------------------------------
-void processInput(GLFWwindow* window)
-{
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS){ glfwSetWindowShouldClose(window, true); }
-
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-        opengl::camera::camera.camera_position.z += -5.0f * deltatime::delta_time; 
-        opengl::camera::camera.reCalculateViewMat4();
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-        opengl::camera::camera.camera_position.x += -5.0f * deltatime::delta_time;
-        opengl::camera::camera.reCalculateViewMat4();
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-        opengl::camera::camera.camera_position.z += 5.0f * deltatime::delta_time;
-        opengl::camera::camera.reCalculateViewMat4();
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-        opengl::camera::camera.camera_position.x += 5.0f * deltatime::delta_time;
-        opengl::camera::camera.reCalculateViewMat4();
-    }
-    if (glfwGetKey(window, GLFW_KEY_SPACE))
-    {
-        opengl::camera::camera.camera_position.y += 5.0f* deltatime::delta_time;
-        opengl::camera::camera.reCalculateViewMat4();
-    }
-    if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT))
-    {
-        opengl::camera::camera.camera_position.y += -5.0f* deltatime::delta_time;
-        opengl::camera::camera.reCalculateViewMat4();
-    }
-}
-
-// glfw: whenever the window size changed (by OS or user resize) this callback function executes
-// ---------------------------------------------------------------------------------------------
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-    // make sure the viewport matches the new window dimensions; note that width and 
-    // height will be significantly larger than specified on retina displays.
-    glViewport(0, 0, width, height);
 }
