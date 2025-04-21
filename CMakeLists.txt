@@ -35,6 +35,10 @@ add_library(RenderEngineObject OBJECT ${SOURCES})
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     # Code for Linux
+    # set compiler flags
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -march=native")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native")
+
     # now here comes the part where its gets OS specific
     add_executable(RenderEngineExecutable
         $<TARGET_OBJECTS:RenderEngineObject>
