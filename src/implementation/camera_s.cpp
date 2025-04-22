@@ -48,6 +48,19 @@ void Camera::setCameraUP(glm::vec3 up)
 
 void Camera::reCalculateViewMat4()
 {
+    this->setCameraFront();
 	this->view = glm::lookAt(this->camera_position, this->camera_front + this->camera_position, this->camera_up);
 }
 
+void Camera::calcDirectionVec3()
+{
+    this->camera_direction.x = glm::cos(glm::radians(this->yaw)) * glm::cos(glm::radians(this->pitch));
+    this->camera_direction.z = glm::sin(glm::radians(this->yaw)) * glm::cos(glm::radians(this->pitch));
+    this->camera_direction.y = glm::sin(glm::radians(this->pitch));
+}
+
+void Camera::setCameraFront()
+{
+    this->calcDirectionVec3();
+    this->camera_front = glm::normalize(this->camera_direction);
+}

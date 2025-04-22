@@ -16,6 +16,10 @@ class Camera{
 	glm::vec3 camera_up = glm::vec3(0.0f, 1.0f, 0.0f);			// default settings
 	glm::vec3 camera_direction = glm::vec3(0.0f, 0.0f, -1.0f);  // default settings
 	glm::mat4 view = glm::lookAt(this->camera_position, this->camera_front + this->camera_position, this->camera_up);
+
+	// yaw and pitch values
+	float yaw = 0.0f;											// theses vals get manipulated by glfwIO.hpp
+	float pitch = 0.0f;											// theses vals get manipulated by glfwIO.hpp
 	
 	Camera();													// no args constructor	select default settings
 	Camera(glm::vec3 pos);										// some overloads
@@ -32,7 +36,9 @@ class Camera{
 	void setCameraUP(glm::vec3 up);
 
 	// A set of functions used to modify the camera values
-	void reCalculateViewMat4();
+	void reCalculateViewMat4();	// warning this function calls setCameraFront() !!!
+	void calcDirectionVec3();
+	void setCameraFront();		// warning this functions calls calcDirectionVec3() !!!
 };
 
 #endif

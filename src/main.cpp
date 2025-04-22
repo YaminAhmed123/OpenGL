@@ -49,6 +49,10 @@ int main()
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, IO::framebuffer_size_callback);
 
+    if (glfwRawMouseMotionSupported()){ glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE); }
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetCursorPosCallback(window, IO::cursor_position_callback);
+
     // glad: load all OpenGL function pointers
     // ---------------------------------------
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
