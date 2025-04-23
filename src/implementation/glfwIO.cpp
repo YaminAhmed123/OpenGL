@@ -36,6 +36,17 @@ void IO::processInput(GLFWwindow* window)
         opengl::camera::camera.reCalculateViewMat4();
     }
 
+    // This is to enable/disable V-SYNC (causes the stuttering issues on linux) 
+    if (glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS)
+    {
+        glfwSwapInterval(0);
+    }
+    if (glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS)
+    {
+        glfwSwapInterval(1);
+    }
+
+
     // TEMPORARY FIX ADDED KIND OFF
     if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
     {
