@@ -6,6 +6,5 @@ uniform mat4 model,view,proj;
 
 void main()
 {
-    vec4 temp = proj * view * model * vec4(aPos, 1.0);
-    gl_Position = vec4(temp.x*0.5, temp.y*0.5, temp.z*0.5, temp.w);
+    gl_Position = proj * view * model * vec4(aPos, 1.0);
 }

@@ -30,9 +30,15 @@ static void HANDLE_FOR_MESHLOADING(std::string path)
 }
 
 
+static std::string LOAD_STRING_POS_FROM_CAMERA_POS_VEC3()
+{
+    float x,y,z;
+    x = opengl::camera::camera.camera_position.x;
+    y = opengl::camera::camera.camera_position.y;
+    z = opengl::camera::camera.camera_position.z;
 
-
-
+    return " X: "+std::to_string(x)+" Y: "+std::to_string(y)+" Z: "+std::to_string(z);
+}
 
 
 
@@ -59,7 +65,9 @@ void gui::setUpGUI(GLFWwindow* window)
 void gui::setUICode(struct gui_state* GUI, GLFWwindow* win)
 {
     ImGui::Begin("Controls");
-    ImGui::Text("Test from UI Code");
+    std::string position = "Position" + LOAD_STRING_POS_FROM_CAMERA_POS_VEC3();
+    const char* position_c = position.c_str();
+    ImGui::Text("%s", position_c);
     if(ImGui::Button("toggle wireframe"))
     {
         HANDLE_FOR_WIRE_FRAME(GUI);

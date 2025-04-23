@@ -11,13 +11,14 @@
 #include <headers/shader/shader_s.hpp>
 #include <headers/opengl.hpp>
 #include <iostream>
+#include <headers/camera/camera_s.hpp>
 
 //include imgui stuff
 #include <headers/gui.hpp>
+#include <headers/time.hpp>
+#include <headers/glfwIO.hpp>
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void processInput(GLFWwindow* window);
-
+ 
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
@@ -25,21 +26,16 @@ static bool stateOfShader = false;
 // global GUI state
 struct gui_state GUI;
 
+void yes(){ std::cout << "shit got called\n";}
 
 int main()
 {
-
-
-
-
     // glfw: initialize and configure
     // ------------------------------
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-
 
     // glfw window creation
     // --------------------
@@ -50,8 +46,13 @@ int main()
         glfwTerminate();
         return -1;
     }
+    
     glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSetFramebufferSizeCallback(window, IO::framebuffer_size_callback);
+
+    if (glfwRawMouseMotionSupported()){ glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE); }
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetCursorPosCallback(window, IO::cursor_position_callback);
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
@@ -61,7 +62,6 @@ int main()
         return -1;
     }
 
-    
     // Setup GUI
     gui::setGUIforStart(&GUI);
     gui::setUpGUI(window);
@@ -77,13 +77,11 @@ int main()
     opengl::state::setBuffersForSingleModellRendering();
 
 
-
     //matrix type shit to start making shit look like its 3D damn sleeek hehehe boi 
     glm::mat4 model2 = glm::mat4(1.0f);
-    model2 = glm::rotate(model2, glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
     glm::mat4 view2 = glm::mat4(1.0f);
-    view2 = glm::translate(view2, glm::vec3(0.0f, 0.0f, -3.0f));
+    view2 = glm::translate(view2, glm::vec3(0.0f, 0.0f, -4.0f));
 
 
     // the perpective
@@ -91,7 +89,7 @@ int main()
     scr_width = SCR_WIDTH;
     scr_height = SCR_HEIGHT;
     glm::mat4 proj2;
-    proj2 = glm::perspective(glm::radians(50.0f), (scr_width / scr_height), 0.1f, 100.0f);
+    proj2 = glm::perspective(glm::radians(45.0f), (scr_width / scr_height), 0.1f, 100.0f);
     
     // NOTE THIS PART OF THE CODES SETS THE UNIFORM MATRECIES IN THE SHADERS TO DO 3D TYPEEE SHIT
 
@@ -101,14 +99,10 @@ int main()
     shader.setMat4("proj", 1, GL_FALSE, glm::value_ptr(proj2));
 
     // rotate the ass cube lol
-    model2 = glm::rotate(model2, 1 * glm::radians(5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-
-    float timeFirst, timeLast, deltaTime;
-    timeFirst = glfwGetTime();
+    model2 = glm::rotate(model2, 1 * glm::radians(40.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 
     
-    // render loop
-    // -----------
+    deltatime::first = glfwGetTime();
     shader.use();
     while (!glfwWindowShouldClose(window))
     {
@@ -117,18 +111,19 @@ int main()
         glEnable(GL_DEPTH_TEST);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        timeLast = glfwGetTime();
-        deltaTime = timeLast - timeFirst;
+        deltatime::last = glfwGetTime();
+        deltatime::delta_time = deltatime::last - deltatime::first;
 
-        
-        model2 = glm::rotate(model2, glm::radians(50.0f) * deltaTime, glm::vec3(0.0f, 1.0f, 0.0f));
         shader.setMat4("model", 1, GL_FALSE, glm::value_ptr(model2));
-        shader.setMat4("view", 1, GL_FALSE, glm::value_ptr(view2));
+        shader.setMat4("view", 1, GL_FALSE, glm::value_ptr(opengl::camera::camera.view));
         shader.setMat4("proj", 1, GL_FALSE, glm::value_ptr(proj2));
+
+
+        model2 = glm::rotate(model2, deltatime::delta_time * glm::radians(20.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 
         // input
         // -----
-        processInput(window);
+        IO::processInput(window);
 
         // render
         // ------
@@ -156,8 +151,7 @@ int main()
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
         glfwPollEvents();
-        timeFirst = timeLast;
-
+        deltatime::first = deltatime::last;
     }
 
     opengl::state::cleanPointers();
@@ -173,37 +167,4 @@ int main()
     // ------------------------------------------------------------------
     glfwTerminate();
     return 0;
-}
-
-// process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
-// ---------------------------------------------------------------------------------------------------------
-void processInput(GLFWwindow* window)
-{
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
-
-    if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
-        stateOfShader = true;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
-        stateOfShader = false;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS) {
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS) {
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    }
-}
-
-// glfw: whenever the window size changed (by OS or user resize) this callback function executes
-// ---------------------------------------------------------------------------------------------
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-    // make sure the viewport matches the new window dimensions; note that width and 
-    // height will be significantly larger than specified on retina displays.
-    glViewport(0, 0, width, height);
 }

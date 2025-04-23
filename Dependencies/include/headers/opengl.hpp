@@ -6,6 +6,8 @@
 #include <headers/shader/shader_s.hpp>
 #include <headers/triangulated_mesh.hpp>
 #include <string>
+#include <headers/camera/camera_s.hpp>
+#include <glm/glm.hpp>
 
 /*
 This header defines OpenGL as a state machine so in here
@@ -43,6 +45,13 @@ namespace opengl {
         // void setObjectForOpenGL();
         void cleanPointers();                                   // CAN ONLY BE CALLED AFTER loadObject() WAS CALLED 
         void setBuffersForSingleModellRendering();              // THIS FUNCTION CHECKS IF THE POINTERS ARE INIT IF SO IT WILL SET UP BUFFERS TO RENDER A SINGLE MESH
+    }
+
+    namespace camera{
+        // this is opengls camera
+        inline Camera camera = Camera();
+
+        void setOpenglCamera(Camera& cam);
     }
 }
 
