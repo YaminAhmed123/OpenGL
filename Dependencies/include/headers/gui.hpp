@@ -4,6 +4,7 @@
 #include <imgui/imgui_impl_opengl3.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 
 
 struct gui_state
@@ -18,6 +19,7 @@ struct gui_state
     bool WIRE_FRAME_STATE;
     bool SHADER_STATE;
     bool APPLICATION_END_STATE;
+    glm::vec3 position_cordinate;
 };
 
 namespace gui {
