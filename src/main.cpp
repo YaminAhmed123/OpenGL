@@ -17,7 +17,6 @@
 #include <headers/gui.hpp>
 #include <headers/time.hpp>
 #include <headers/glfwIO.hpp>
-
  
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -25,8 +24,6 @@ const unsigned int SCR_HEIGHT = 600;
 static bool stateOfShader = false;
 // global GUI state
 struct gui_state GUI;
-
-void yes(){ std::cout << "shit got called\n";}
 
 int main()
 {
