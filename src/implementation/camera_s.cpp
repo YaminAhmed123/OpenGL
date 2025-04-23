@@ -64,3 +64,31 @@ void Camera::setCameraFront()
     this->calcDirectionVec3();
     this->camera_front = glm::normalize(this->camera_direction);
 }
+
+void Camera::shiftCameraPosByDirectionVec3AndIgnoreY_Axis(float sensetivity, bool POS_OR_NEG, float yaw)
+{
+    glm::vec3 direction_in_X_Z = glm::vec3(0.0f, 0.0f, 0.0f);
+    direction_in_X_Z.x = glm::cos(glm::radians(yaw));
+    direction_in_X_Z.z = glm::sin(glm::radians(yaw));
+    direction_in_X_Z = glm::normalize(direction_in_X_Z);
+    direction_in_X_Z *= sensetivity;
+
+    if (POS_OR_NEG)
+    {
+        this->camera_position += direction_in_X_Z;
+    } else{
+        this->camera_position -= direction_in_X_Z;
+    }
+}
+
+void Camera::shiftCameraPosByTheCrossProductOfDirection(float sensetivity, bool POS_OR_NEG)
+{
+    glm::vec3 direction = this->camera_direction;
+    glm::vec3 upVector = glm::vec3(0.0f, 1.0f, 0.0f);
+    glm::vec3 crossOfDirectionAndUp = glm::normalize(glm::cross(upVector, direction));
+    if(POS_OR_NEG){
+        this->camera_position += crossOfDirectionAndUp * sensetivity; 
+    } else{
+        this->camera_position -= crossOfDirectionAndUp * sensetivity;
+    }
+}

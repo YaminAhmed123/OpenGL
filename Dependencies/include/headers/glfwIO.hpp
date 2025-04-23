@@ -9,7 +9,7 @@ namespace IO{
     // inline double xpos = 0;
     // inline double ypos = 0;
     inline bool walking_mode = false;
-    inline float sensetivity = 0.1f;
+    inline float sensetivity = 0.05f;
     inline float lastX = 300.0f;
     inline float lastY = 400.0f;
     inline bool firstMouse = true;

@@ -4,25 +4,26 @@
 // ---------------------------------------------------------------------------------------------------------
 void IO::processInput(GLFWwindow* window)
 {
+    float sensetivity = 4.7f;
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS){ glfwSetWindowShouldClose(window, true); }
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-        opengl::camera::camera.camera_position.z += -5.0f * deltatime::delta_time; 
+        opengl::camera::camera.shiftCameraPosByDirectionVec3AndIgnoreY_Axis(sensetivity*deltatime::delta_time, true, opengl::camera::camera.yaw);
         opengl::camera::camera.reCalculateViewMat4();
     }
 
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-        opengl::camera::camera.camera_position.x += -5.0f * deltatime::delta_time;
+        opengl::camera::camera.shiftCameraPosByTheCrossProductOfDirection(sensetivity*deltatime::delta_time, true);
         opengl::camera::camera.reCalculateViewMat4();
     }
 
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-        opengl::camera::camera.camera_position.z += 5.0f * deltatime::delta_time;
+        opengl::camera::camera.shiftCameraPosByDirectionVec3AndIgnoreY_Axis(sensetivity*deltatime::delta_time, false, opengl::camera::camera.yaw);
         opengl::camera::camera.reCalculateViewMat4();
     }
 
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-        opengl::camera::camera.camera_position.x += 5.0f * deltatime::delta_time;
+        opengl::camera::camera.shiftCameraPosByTheCrossProductOfDirection(sensetivity*deltatime::delta_time, false);
         opengl::camera::camera.reCalculateViewMat4();
     }
     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)

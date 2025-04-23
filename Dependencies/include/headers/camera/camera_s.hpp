@@ -39,6 +39,10 @@ class Camera{
 	void reCalculateViewMat4();	// warning this function calls setCameraFront() !!!
 	void calcDirectionVec3();
 	void setCameraFront();		// warning this functions calls calcDirectionVec3() !!!
+
+	void shiftCameraPosByDirectionVec3AndIgnoreY_Axis(float sensetivity, bool POS_OR_NEG, float yaw);		// Note that this function uses a normalized version of the direction vecotr !!!
+																											// The POS_OR_NEG param is there tos set in which direction it should be shifted +/-
+	void shiftCameraPosByTheCrossProductOfDirection(float sensetivity, bool POS_OR_NEG);
 };
 
 #endif
