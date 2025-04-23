@@ -89,9 +89,7 @@ int main()
     scr_width = SCR_WIDTH;
     scr_height = SCR_HEIGHT;
     glm::mat4 proj2;
-    proj2 = glm::perspective(glm::radians(40.0f), (scr_width / scr_height), 0.1f, 100.0f);
-
-    
+    proj2 = glm::perspective(glm::radians(45.0f), (scr_width / scr_height), 0.1f, 100.0f);
     
     // NOTE THIS PART OF THE CODES SETS THE UNIFORM MATRECIES IN THE SHADERS TO DO 3D TYPEEE SHIT
 
