@@ -11,7 +11,7 @@ This project is an [OpenGL](https://www.khronos.org/) based render engine with l
 - loading third party **GLSL** shaders to customize the experience
 - using Cmake as a cross build tool for windows and linux for easy usage
 
-### Links we used for learning and building
+### Links I used for learning and building
 - [Learn OpenGL](https://learnopengl.com/) from my point of view a good resource to learn OpenGL and get a grasp of the concepts.
 - [Scratch Pixel](https://www.scratchapixel.com/index.html) explains a lot about **CG** in genereal and can be usful if you focus on specific aspects.
 - [Cmake](https://cmake.org/) CMake is the chosen build system for managing cross-platform builds.
@@ -24,4 +24,7 @@ This project is an [OpenGL](https://www.khronos.org/) based render engine with l
 - then go type from the build dir the command cmake ..
 - after that type in the command make.
 - and last add the shader and images directories there where the executable file is located at
-read me not done yet most features missing coming soon
+
+### NOTICE
+- read me not done yet
+- most features are coming soon
