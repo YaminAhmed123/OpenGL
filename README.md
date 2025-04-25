@@ -24,3 +24,4 @@ This project is an [OpenGL](https://www.khronos.org/) based render engine with l
 - then go type from the build dir the command cmake ..
 - after that type in the command make.
 - and last add the shader and images directories there where the executable file is located at
+read me not done yet most features missing coming soon
