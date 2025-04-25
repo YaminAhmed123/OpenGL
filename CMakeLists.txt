@@ -45,8 +45,9 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     )
 
     # Link statically built GLFW and required system libraries
+    
     target_link_libraries(RenderEngineExecutable
-        ${CMAKE_CURRENT_SOURCE_DIR}/Dependencies/lib/libglfw3.a
+    ${CMAKE_CURRENT_SOURCE_DIR}/Dependencies/lib/libglfw3.a
     )
     
 elseif (CMAKE_SYSTEM_NAME STREQUAL "Windows")
