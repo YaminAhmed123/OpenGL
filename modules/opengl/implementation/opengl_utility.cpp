@@ -1,4 +1,4 @@
-#include <headers/opengl.hpp>
+#include <opengl/headers/opengl.hpp>
 
 void opengl::utility::convertFacesToIndecies(int faceBufferSize, struct face* faceBuffer, int*& ptr_INDECIES, int& indeciesSize)
 {

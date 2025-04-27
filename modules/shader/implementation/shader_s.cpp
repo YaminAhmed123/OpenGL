@@ -1,4 +1,4 @@
-#include <headers/shader/shader_s.hpp>
+#include <shader/headers/shader_s.hpp>
 
 #include <glad/glad.h>
 #include <string>

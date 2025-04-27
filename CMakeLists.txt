@@ -8,28 +8,32 @@ set(CMAKE_CXX_STANDARD 20)
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/Dependencies/include
     ${CMAKE_CURRENT_SOURCE_DIR}/Dependencies/include/imgui
+    ${CMAKE_CURRENT_SOURCE_DIR}/modules/
 )
 
 # fetches all source files and stores their path in the SOURCE variable
 set(SOURCES
     src/main.cpp
     src/glad.c
-    src/implementation/shader_s.cpp
-    src/implementation/camera_s.cpp
-    src/implementation/glfwIO.cpp
-    src/implementation/gui.cpp
-    src/implementation/opengl_camera.cpp
-    src/implementation/opengl_state.cpp
-    src/implementation/opengl_utility.cpp
-    src/implementation/triangulated_mesh.cpp
+
+    # imGui source files
+    src/imgui/imgui_demo.cpp
     src/imgui/imgui_draw.cpp
     src/imgui/imgui_impl_glfw.cpp
     src/imgui/imgui_impl_opengl3.cpp
     src/imgui/imgui_tables.cpp
     src/imgui/imgui_widgets.cpp
     src/imgui/imgui.cpp
-    src/imgui/imgui_demo.cpp
 )
+
+function(FETCH_MODULE_IMPLEMENTATIONS target_var)
+    file(GLOB_RECURSE files
+        "${CMAKE_CURRENT_SOURCE_DIR}/modules/*.cpp"
+    )
+    set(${target_var} ${${target_var}} ${files} PARENT_SCOPE)
+endfunction()
+
+FETCH_MODULE_IMPLEMENTATIONS(SOURCES)
 
 add_library(RenderEngineObject OBJECT ${SOURCES})
 

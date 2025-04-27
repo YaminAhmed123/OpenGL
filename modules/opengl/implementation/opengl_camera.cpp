@@ -1,4 +1,4 @@
-#include <headers/opengl.hpp>
+#include <opengl/headers/opengl.hpp>
 
 void opengl::camera::setOpenglCamera(Camera& cam)
 {

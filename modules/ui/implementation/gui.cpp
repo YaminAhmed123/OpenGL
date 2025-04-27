@@ -1,5 +1,5 @@
-#include <headers/gui.hpp>
-#include <headers/opengl.hpp>
+#include <ui/headers/gui.hpp>
+#include <opengl/headers/opengl.hpp>
 #include <headers/ui/portable-file-dialogs.h>
 
 
