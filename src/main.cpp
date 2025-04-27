@@ -8,15 +8,15 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <headers/shader/shader_s.hpp>
-#include <headers/opengl.hpp>
+#include <shader/headers/shader_s.hpp>
+#include <opengl/headers/opengl.hpp>
 #include <iostream>
-#include <headers/camera/camera_s.hpp>
+#include <camera/headers/camera_s.hpp>
 
 //include imgui stuff
-#include <headers/gui.hpp>
-#include <headers/time.hpp>
-#include <headers/glfwIO.hpp>
+#include <timing/headers/time.hpp>
+#include <ui/headers/gui.hpp>
+#include <input/headers/glfwIO.hpp>
  
 // settings
 const unsigned int SCR_WIDTH = 800;

@@ -1,4 +1,4 @@
-#include <headers/triangulated_mesh.hpp>
+#include <objectloader/headers/triangulated_mesh.hpp>
 #include <fstream>
 #include <stdio.h>
 

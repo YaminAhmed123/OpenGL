@@ -1,7 +1,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <headers/opengl.hpp>
-#include <headers/time.hpp>
+#include <opengl/headers/opengl.hpp>
+#include <timing/headers/time.hpp>
 
 // This header declares a set of functions used to Handle I/O coming from the user
 namespace IO{

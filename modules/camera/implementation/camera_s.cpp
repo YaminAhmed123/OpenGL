@@ -1,4 +1,4 @@
-#include <headers/camera/camera_s.hpp>
+#include <camera/headers/camera_s.hpp>
 
 
 // Camera Constructors

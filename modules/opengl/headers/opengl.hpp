@@ -3,10 +3,10 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <headers/shader/shader_s.hpp>
-#include <headers/triangulated_mesh.hpp>
+#include <shader/headers/shader_s.hpp>
+#include <objectloader/headers/triangulated_mesh.hpp>
 #include <string>
-#include <headers/camera/camera_s.hpp>
+#include <camera/headers/camera_s.hpp>
 #include <glm/glm.hpp>
 
 /*

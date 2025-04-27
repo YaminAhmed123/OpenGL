@@ -10,10 +10,10 @@
 struct gui_state
 {
     /*
-    The data inside this stuct conatins the GUI data
-    These will be used for statemanagement
-    It is highly reccomended to only have one instance of this struct 
-    if more things are needed they can be added in this header 
+        The data inside this stuct conatins the GUI data
+        These will be used for statemanagement
+        It is highly reccomended to only have one instance of this struct 
+        if more things are needed they can be added in this header 
     */
 
     bool WIRE_FRAME_STATE;

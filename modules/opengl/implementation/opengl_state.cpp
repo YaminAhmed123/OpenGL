@@ -1,4 +1,4 @@
-#include <headers/opengl.hpp>
+#include <opengl/headers/opengl.hpp>
 #include <string>
 
 // implements the namepsace "state" from the included header
