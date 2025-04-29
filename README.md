@@ -20,11 +20,10 @@ This project is an [OpenGL](https://www.khronos.org/) based render engine with l
 ## How to compile ?    [![Static Badge](https://img.shields.io/badge/MSVC-darkblue)](https://learn.microsoft.com/de-de/cpp/build/reference/compiler-options?view=msvc-170)   [![Static Badge](https://img.shields.io/badge/GCC-purple)](https://gcc.gnu.org/)   [![Static Badge](https://img.shields.io/badge/CMake-darkred)](https://cmake.org/)
 
 ### Linux
-- clone the repo after that create a dir called build if there is no build directory.
-- then go type from the build dir the command cmake ..
-- after that type in the command make.
-- and last add the shader and images directories there where the executable file is located at
-- Note this section will be reimplemented in future.
+- This section is coming soon
+
+### windows
+- This section is coming soon
 
 ### NOTICE
 - read me not done yet
