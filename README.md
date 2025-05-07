@@ -19,12 +19,4 @@ This project is an [OpenGL](https://www.khronos.org/) based render engine with l
 
 ## How to compile ?    [![Static Badge](https://img.shields.io/badge/MSVC-darkblue)](https://learn.microsoft.com/de-de/cpp/build/reference/compiler-options?view=msvc-170)   [![Static Badge](https://img.shields.io/badge/GCC-purple)](https://gcc.gnu.org/)   [![Static Badge](https://img.shields.io/badge/CMake-darkred)](https://cmake.org/)
 
-### Linux
-- This section is coming soon
-
-### windows
-- This section is coming soon
-
-### NOTICE
-- read me not done yet
-- most features are coming soon
+### Coming soon
