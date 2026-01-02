@@ -1,4 +1,4 @@
-# OpenGL based Render Engine **alpha stage** [![Static Badge](https://img.shields.io/badge/GLFW-blue)](https://github.com/glfw/glfw)   [![Static Badge](https://img.shields.io/badge/ImGui-lightgreen)](https://github.com/ocornut/imgui)  [![Static Badge](https://img.shields.io/badge/OpenGL-darkgreen)](https://www.opengl.org/)
+# OpenGL based Render Engine **discontinued** [![Static Badge](https://img.shields.io/badge/GLFW-blue)](https://github.com/glfw/glfw)   [![Static Badge](https://img.shields.io/badge/ImGui-lightgreen)](https://github.com/ocornut/imgui)  [![Static Badge](https://img.shields.io/badge/OpenGL-darkgreen)](https://www.opengl.org/)
 This project is an [OpenGL](https://www.khronos.org/) based render engine with linux and windows support the goal is to be feature rich and cross compilable.  
 
 
