@@ -1,2 +1,3 @@
 #Removing deps from code detection
-Dependencies/** linguist-vendored
+Dependencies/** linguist-detectable=false
+
