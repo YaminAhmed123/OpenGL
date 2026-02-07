@@ -1,2 +1,5 @@
 #Removing deps from code detection
 Dependencies/** linguist-vendored
+
+# for a test only
+*.cpp linguist-language=Slang
