@@ -1,3 +1,4 @@
 #Removing deps from code detection
-Dependencies/** linguist-detectable=false
+Dependencies/** linguist-language=Python
+
 
