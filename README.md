@@ -19,7 +19,7 @@ This project is an [OpenGL](https://www.khronos.org/) based render engine with l
 
 ## How to compile ?    [![Static Badge](https://img.shields.io/badge/MSVC-darkblue)](https://learn.microsoft.com/de-de/cpp/build/reference/compiler-options?view=msvc-170)   [![Static Badge](https://img.shields.io/badge/GCC-purple)](https://gcc.gnu.org/)   [![Static Badge](https://img.shields.io/badge/CMake-darkred)](https://cmake.org/)
 
-### Coming soon
+### Coming soon **wont come soon deprecated**
 - This is engine is deprecated look at the HATE Engine.
 - Hate provides a modern render engine but is actually a game engine.
 - How ever its modular design allows us to seperate the render engine out of it.
